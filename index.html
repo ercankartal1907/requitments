@@ -1,0 +1,1659 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<meta name="darkreader-lock">
+<title>Dijital Okul</title>
+<script>document.documentElement.dataset.theme=localStorage.th||"light"</script>
+<style>
+:root{--bg:#f6f7fb;--sf:#fff;--sf2:#eef0f7;--tx:#0f172a;--mu:#64748b;--bd:#e2e8f0;--pr:#4f46e5;--prx:#4338ca;--ok:#16a34a;--dn:#dc2626;--sh:0 1px 2px rgba(15,23,42,.06),0 6px 18px rgba(15,23,42,.06);color-scheme:light}
+[data-theme=dark]{--bg:#0b1020;--sf:#131a2e;--sf2:#1b2440;--tx:#e8ecf8;--mu:#94a3b8;--bd:#26304f;--pr:#6366f1;--prx:#a5b4fc;--sh:0 1px 2px rgba(0,0,0,.4),0 6px 18px rgba(0,0,0,.3);color-scheme:dark}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;font:15px/1.5 Inter,system-ui,-apple-system,"Segoe UI",sans-serif;background:var(--bg);color:var(--tx)}
+h1{font-size:26px;margin:0;line-height:1.2}
+h2{margin:0 0 4px;font-size:24px}
+h3{margin:0 0 8px;font-size:16px}
+p{margin:6px 0}
+button,input,select,textarea{font:inherit;color:inherit}
+input,select,textarea{padding:9px 12px;border:1px solid var(--bd);border-radius:10px;background:var(--sf);outline:none;min-width:0}
+input:focus,select:focus,textarea:focus{border-color:var(--pr);box-shadow:0 0 0 3px color-mix(in srgb,var(--pr) 22%,transparent)}
+textarea{resize:vertical;min-height:70px}
+button{cursor:pointer;border:0}
+.btn{background:var(--pr);color:#fff;padding:9px 16px;border-radius:10px;font-weight:600;transition:.15s}
+.btn:hover{filter:brightness(1.1)}
+.btn.sec{background:var(--sf2);color:var(--tx)}
+.btn.dn{background:var(--dn);color:#fff}
+.btn.sm{padding:5px 11px;font-size:13px}
+.btn.lg{padding:12px 22px;font-size:16px}
+.btn:disabled,.ic:disabled,.cb:disabled{opacity:.4;cursor:default}
+.ic{background:var(--sf2);color:var(--tx);width:34px;height:34px;border-radius:9px;display:inline-grid;place-items:center;font-size:15px;padding:0;flex:none}
+.ic:hover{filter:brightness(.95)}
+.ic.on{background:var(--pr);color:#fff}
+.mu,small{color:var(--mu)}
+small{display:block;font-size:12px}
+.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.grow{flex:1;min-width:0}
+.card{background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:18px;margin-bottom:14px;box-shadow:var(--sh)}
+.hd{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:20px}
+.err{color:var(--dn);min-height:20px}
+.chip,.tag{display:inline-block;font-size:12px;font-weight:600;background:color-mix(in srgb,var(--pr) 14%,transparent);color:var(--prx);border-radius:99px;padding:2px 10px}
+.chip.big{font-size:18px;letter-spacing:3px;padding:6px 14px;cursor:pointer}
+.sh2{margin:22px 0 10px}
+.sub{background:var(--sf2);border-radius:12px;padding:12px;margin-top:10px}
+.form{display:flex;flex-direction:column;gap:10px;margin-top:12px}
+summary{cursor:pointer}
+.empty{grid-column:1/-1;text-align:center;padding:50px;color:var(--mu);font-size:40px}
+.empty p{font-size:15px;margin:6px 0 0}
+#shell{display:flex;min-height:100%}
+#side{width:240px;flex:none;background:var(--sf);border-right:1px solid var(--bd);padding:18px 14px;display:flex;flex-direction:column;gap:18px;position:sticky;top:0;height:100vh}
+#shell.out #side{display:none}
+.logo{display:flex;gap:10px;align-items:center;font-size:18px;padding:0 8px}
+.logo span{font-size:24px}
+nav{display:flex;flex-direction:column;gap:4px;flex:1}
+.ni{display:flex;gap:12px;align-items:center;padding:10px 12px;border-radius:12px;background:none;color:var(--mu);font-weight:600;text-align:left}
+.ni:hover{background:var(--sf2)}
+.ni.on{background:color-mix(in srgb,var(--pr) 14%,transparent);color:var(--prx)}
+.ni span{font-size:18px}
+.ni em{font-style:normal}
+.who{display:flex;gap:8px;align-items:center;padding-top:14px;border-top:1px solid var(--bd)}
+.wn{flex:1;min-width:0}
+.wn b{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.av{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--pr),#ec4899);color:#fff;display:grid;place-items:center;font-weight:700;flex:none}
+.av.sm{width:28px;height:28px;font-size:13px}
+#main{flex:1;min-width:0}
+#app{max-width:1080px;margin:0 auto;padding:28px 24px 60px}
+#shell.out #app{max-width:none;padding:0}
+.auth{min-height:100vh;display:grid;grid-template-columns:1.1fr 1fr}
+.hero{background:linear-gradient(135deg,#4f46e5,#7c3aed 55%,#ec4899);color:#fff;padding:48px;display:flex;flex-direction:column;justify-content:center;gap:14px}
+.hero h1{font-size:38px;line-height:1.15}
+.hero p{opacity:.92;font-size:17px;max-width:420px}
+.logo.big{padding:0;font-size:22px}
+.panel{display:flex;flex-direction:column;gap:14px;justify-content:center;padding:48px;max-width:460px;width:100%;margin:0 auto}
+.panel label{display:flex;flex-direction:column;gap:6px;font-weight:600;font-size:14px}
+.sw2{text-align:center;color:var(--mu)}
+.sw2 a{color:var(--prx);cursor:pointer;font-weight:600}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:14px}
+.stat{background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:16px;box-shadow:var(--sh);display:grid;gap:2px}
+.stat span{font-size:22px}
+.stat b{font-size:28px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.list{display:flex;flex-direction:column;gap:6px}
+.li{display:flex;gap:12px;align-items:center;padding:10px;border-radius:12px;cursor:pointer}
+.li:hover{background:var(--sf2)}
+.books{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:18px}
+.book{position:relative;background:var(--sf);border:1px solid var(--bd);border-radius:14px;overflow:hidden;box-shadow:var(--sh);transition:.15s}
+.book:hover{transform:translateY(-3px)}
+.cv{aspect-ratio:3/4;background:linear-gradient(135deg,var(--sf2),var(--bd));cursor:pointer;position:relative}
+.cv img{width:100%;height:100%;object-fit:cover;display:block;background:#fff}
+.cv img:not([src]){visibility:hidden}
+.pg{position:absolute;right:8px;bottom:8px;background:rgba(15,23,42,.75);color:#fff;font-size:11px;padding:2px 8px;border-radius:99px}
+.cv .tag{position:absolute;left:8px;top:8px;background:#fff;color:#4338ca}
+.bi{padding:10px 12px}
+.bi b{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bi small{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.dl{position:absolute;right:6px;top:6px;opacity:0;background:rgba(255,255,255,.95);color:#111}
+.book:hover .dl{opacity:1}
+.srch{width:240px}
+.chk{display:flex;gap:6px;align-items:center;font-size:14px}
+.center{text-align:center;max-width:520px;margin:30px auto}
+.code{text-transform:uppercase;letter-spacing:8px;text-align:center;font-size:22px;font-weight:700;width:210px}
+.cj{justify-content:center;margin:14px 0}
+#toasts{position:fixed;right:16px;top:16px;z-index:100;display:flex;flex-direction:column;gap:8px}
+.toast{background:var(--tx);color:var(--bg);padding:10px 16px;border-radius:12px;box-shadow:var(--sh);font-weight:600}
+.toast.ok{background:var(--ok);color:#fff}
+.toast.bad{background:var(--dn);color:#fff}
+#reader{position:fixed;inset:0;z-index:50;background:var(--bg);display:flex;flex-direction:column}
+#rh{display:flex;gap:10px;align-items:center;flex-wrap:wrap;padding:8px 14px;background:var(--sf);border-bottom:1px solid var(--bd)}
+.rt{max-width:200px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.grp{display:flex;gap:6px;align-items:center;background:var(--sf2);padding:4px 8px;border-radius:12px}
+#pnum{width:58px;text-align:center;padding:4px}
+.vr{width:1px;height:22px;background:var(--bd)}
+.sw{width:22px;height:22px;border-radius:50%;border:2px solid var(--sf);box-shadow:0 0 0 1px var(--bd);padding:0}
+.sw.on{box-shadow:0 0 0 2px var(--pr)}
+#color{padding:0;width:28px;height:28px;border:0;background:none}
+#size{width:90px;padding:0;accent-color:var(--pr)}
+#reader.ro .edit{display:none}
+#wrap{flex:1;overflow:auto;text-align:center;padding:18px;background:var(--sf2)}
+#stage{position:relative;display:inline-block}
+#stage canvas{display:block;background:#fff;box-shadow:0 4px 24px rgba(0,0,0,.25);border-radius:4px}
+#drawc{position:absolute;left:0;top:0;touch-action:none;background:transparent!important}
+#live{position:fixed;inset:0;z-index:60;background:#0b1020;color:#e8ecf8;display:flex;flex-direction:column}
+#live.min{display:none}
+#lrest{position:fixed;right:16px;bottom:16px;z-index:61}
+#lrest[hidden]{display:none}
+#lh{display:flex;gap:12px;align-items:center;padding:10px 16px;border-bottom:1px solid #1e2745;flex-wrap:wrap}
+#lh .mu{color:#94a3b8;font-size:13px}
+#lmain{flex:1;display:flex;min-height:0}
+#boardw{flex:1;position:relative;display:flex;align-items:center;justify-content:center;padding:14px;min-width:0}
+#board{width:100%;max-width:calc((100vh - 200px)*16/9);height:auto;background:#fff;border-radius:10px;box-shadow:0 8px 40px rgba(0,0,0,.5);touch-action:none}
+#btools{position:absolute;left:50%;bottom:24px;transform:translateX(-50%);display:flex;gap:8px;align-items:center;background:rgba(19,26,46,.95);border:1px solid #26304f;padding:6px 10px;border-radius:14px}
+#btools .ic{background:#1b2440;color:#e8ecf8}
+#btools .ic.on{background:#6366f1}
+#bcol{padding:0;width:28px;height:28px;border:0;background:none}
+#bsz{width:80px;padding:0;accent-color:#6366f1}
+#rside{width:290px;flex:none;display:flex;flex-direction:column;border-left:1px solid #1e2745}
+#vids{max-height:48%;overflow:auto;display:grid;grid-template-columns:1fr 1fr;gap:6px;padding:8px}
+.tile{position:relative;background:#000;border-radius:10px;overflow:hidden}
+.tile video{width:100%;display:block;aspect-ratio:4/3;object-fit:cover}
+.tile span{position:absolute;left:5px;bottom:4px;font-size:11px;background:rgba(0,0,0,.65);padding:1px 6px;border-radius:6px}
+#tabs{display:flex;border-bottom:1px solid #1e2745}
+#tabs button{flex:1;background:none;color:#94a3b8;padding:10px;font-weight:600}
+#tabs button.on{color:#fff;box-shadow:inset 0 -2px #6366f1}
+#pchat,#pppl{flex:1;min-height:0;display:flex;flex-direction:column}
+#clog{flex:1;overflow:auto;padding:10px;font-size:13px;display:flex;flex-direction:column;gap:6px}
+#clog b{color:#a5b4fc}
+#pchat input{background:#131a2e;border-color:#26304f;color:#e8ecf8}
+#pppl{overflow:auto;padding:8px;gap:4px}
+.pp{display:flex;gap:8px;align-items:center;padding:6px}
+#lf{display:flex;justify-content:center;gap:12px;padding:12px;border-top:1px solid #1e2745;flex-wrap:wrap}
+.cb{background:#1b2440;color:#e8ecf8;border-radius:14px;padding:8px 16px;display:flex;flex-direction:column;align-items:center;min-width:80px}
+.cb span{font-size:20px}
+.cb em{font-style:normal;font-size:11px;color:#94a3b8}
+.cb.off{background:#7f1d1d}
+.cb.on{background:#6366f1}
+.cb.dn{background:#dc2626}
+.cb.on em,.cb.dn em,.cb.off em{color:#fff}
+[hidden]{display:none!important}
+@media(max-width:780px){
+#shell{flex-direction:column}
+#side{position:fixed;bottom:0;left:0;right:0;top:auto;width:100%;height:auto;flex-direction:row;padding:6px;z-index:30;border-right:0;border-top:1px solid var(--bd);gap:4px}
+.logo,.wn{display:none}
+nav{flex-direction:row;justify-content:space-around}
+.ni{flex-direction:column;gap:0;padding:6px 10px;font-size:11px}
+.who{border:0;padding:0}
+#app{padding:18px 14px 90px}
+.stats{grid-template-columns:repeat(2,1fr)}
+.two,.auth{grid-template-columns:1fr}
+.hero{padding:28px}
+.panel{padding:24px}
+#lmain{flex-direction:column}
+#rside{width:100%;height:42%;border-left:0;border-top:1px solid #1e2745}
+#board{max-width:100%}
+}
+
+.tbl{width:100%;border-collapse:collapse;font-size:14px}
+.tbl th,.tbl td{padding:8px 10px;text-align:left;border-bottom:1px solid var(--bd);white-space:nowrap;vertical-align:top}
+.tbl th{color:var(--mu);font-size:12px;text-transform:uppercase;letter-spacing:.04em}
+.tw{overflow-x:auto}
+.up{color:var(--ok);font-weight:700}.dw{color:var(--dn);font-weight:700}
+.fl{display:flex;flex-direction:column;gap:4px;font-weight:600;font-size:14px}
+.bar{height:10px;background:var(--sf2);border-radius:99px;overflow:hidden;min-width:60px}
+.bar i{display:block;height:100%;background:var(--pr);border-radius:99px}
+.score{font-size:56px;font-weight:800;line-height:1}
+.pre{white-space:pre-wrap}
+.tabs2{display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap}
+.tabs2 button{padding:8px 14px;border-radius:10px;background:var(--sf2);color:var(--tx);font-weight:600}
+.tabs2 button.on{background:var(--pr);color:#fff}
+.opt{display:flex;gap:10px;align-items:center;padding:10px 12px;border:1px solid var(--bd);border-radius:12px;cursor:pointer;margin-top:8px;background:var(--sf)}
+.opt.on{border-color:var(--pr);background:color-mix(in srgb,var(--pr) 12%,transparent)}
+.opt.ok{border-color:var(--ok);background:color-mix(in srgb,var(--ok) 14%,transparent)}
+.opt.bad{border-color:var(--dn);background:color-mix(in srgb,var(--dn) 12%,transparent)}
+#exam{position:fixed;inset:0;z-index:90;background:var(--bg);display:flex;flex-direction:column}
+.exh{display:flex;gap:12px;align-items:center;padding:10px 16px;background:var(--sf);border-bottom:1px solid var(--bd);flex-wrap:wrap}
+.exb{flex:1;overflow:auto;padding:18px;max-width:820px;width:100%;margin:0 auto}
+.eban{background:#fef3c7;color:#92400e;padding:8px 16px;font-weight:600}
+#pick{position:fixed;inset:0;z-index:95;background:rgba(0,0,0,.5);display:grid;place-items:center;padding:16px}
+#pick .pk{max-width:480px;width:100%;max-height:80vh;overflow:auto;margin:0}
+textarea{min-height:70px}
+@media(max-width:780px){.ni{padding:6px 5px;font-size:10px}}
+#nb{position:fixed;inset:0;z-index:90;background:#1e293b;display:flex;flex-direction:column}
+#nb[hidden]{display:none}
+.nbt{display:flex;gap:8px;align-items:center;flex-wrap:wrap;padding:10px;background:#0f172a;color:#fff}
+#nbw{flex:1;display:flex;align-items:center;justify-content:center;overflow:auto;padding:12px;min-height:0}
+#nbc2{background:#fff;max-width:100%;max-height:100%;width:auto;height:auto;touch-action:none}
+body.hc{filter:contrast(1.3)}
+.hc .card{border:2px solid #000}
+
+@import url("https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Literata:opsz,wght@7..72,400;7..72,500;7..72,600;7..72,700&display=swap");
+:root{--paper:#F6F4EE;--card:#FFFDF8;--ink:#1C2430;--ink2:#465162;--ink3:#7A8494;--line:#DCD8CC;--pr:#1F4E79;--prx:#163A5A;--pencil:#E8B02E;--pencil-soft:#F5E7B8;--chalk:#1F3B33;--ok:#2E7D4F;--dn:#B42318;--sf:var(--card);--sf2:#EFEBE0;--bg:var(--paper);--tx:var(--ink);--mu:var(--ink3);--bd:var(--line);--sh:none;--pr-rgb:31,78,121}
+body{font-family:Figtree,system-ui,-apple-system,"Segoe UI",sans-serif;font-size:15px;line-height:1.6;background:var(--paper);color:var(--ink);-webkit-font-smoothing:antialiased}
+h1,h2,h3,.logo b,.hero h1,.stat b,.lc-title{font-family:Literata,Georgia,"Times New Roman",serif;letter-spacing:-.01em;color:var(--ink)}
+h1{font-size:30px;font-weight:600;line-height:1.2}
+h2{font-size:26px;font-weight:600}
+h3{font-size:17px;font-weight:600}
+.mu,small{color:var(--ink3)}
+:focus-visible{outline:2px solid var(--pencil);outline-offset:2px}
+#app{background-image:repeating-linear-gradient(to bottom,transparent 0 31px,rgba(var(--pr-rgb),.055) 31px 32px);background-attachment:local}
+.hd{padding-bottom:14px;margin-bottom:22px;border-bottom:1px solid var(--line)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:20px;margin-bottom:14px;box-shadow:none}
+.card.pk,#pick .card{box-shadow:0 18px 48px rgba(28,36,48,.22)}
+.btn{background:var(--pr);color:#fff;border-radius:10px;font-weight:600;letter-spacing:0;padding:9px 16px;transition:background-color .15s,color .15s}
+.btn:hover{background:var(--prx);filter:none}
+.btn.sec{background:transparent;color:var(--pr);box-shadow:inset 0 0 0 1px var(--line)}
+.btn.sec:hover{background:var(--sf2);filter:none}
+.btn.dn{background:var(--dn)}
+.btn.dn:hover{background:#8F1A12}
+.btn.sm{padding:6px 12px;font-size:13px}
+input,select,textarea{border:1px solid var(--line);border-radius:10px;background:#FFFFFF;padding:9px 12px}
+input:focus,select:focus,textarea:focus{border-color:var(--pr);box-shadow:0 0 0 3px rgba(var(--pr-rgb),.16)}
+.ic{background:var(--sf2);color:var(--ink);border-radius:9px}
+.ic.on{background:var(--pr);color:#fff}
+.chip,.tag{background:var(--pencil-soft);color:#5C4300;border-radius:6px;font-weight:600;font-size:12px;padding:2px 9px}
+.chip.dw{background:#F8DFDB;color:var(--dn)}
+.chip.big{font-family:Literata,serif;font-size:20px;letter-spacing:4px;padding:6px 14px;background:var(--sf2);color:var(--ink)}
+.sub{background:var(--sf2);border-radius:10px}
+.stats{gap:12px}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:12px;box-shadow:none;padding:18px}
+.stat span{font-size:20px}
+.stat b{font-size:30px;font-weight:600}
+.tbl th{color:var(--ink3);font-weight:600;font-size:13px;border-bottom:1px solid var(--line)}
+.tbl td{border-bottom:1px solid #EFEBE0}
+.li{border-radius:10px}
+.li:hover{background:var(--sf2)}
+.empty{font-family:Literata,serif;color:var(--ink3)}
+.bar{background:#E7E2D4;border-radius:99px}
+.bar i{background:var(--pr);border-radius:99px}
+#side{background:var(--card);border-right:1px solid var(--line);padding:22px 16px}
+.logo{padding:0 6px}
+.logo span{font-size:26px}
+.logo b{font-size:19px;font-weight:600}
+.ni{color:var(--ink2);border-radius:10px;position:relative;font-weight:500}
+.ni:hover{background:var(--sf2);color:var(--ink)}
+.ni.on{background:transparent;color:var(--ink);font-weight:600}
+.ni.on::before{content:"";position:absolute;left:-16px;top:9px;bottom:9px;width:4px;border-radius:0 4px 4px 0;background:var(--pencil)}
+.who{border-top:1px solid var(--line)}
+.av{background:var(--chalk);color:#F3F1EA;border-radius:8px;font-family:Literata,serif;font-weight:600}
+.auth{grid-template-columns:minmax(0,1.05fr) minmax(0,1fr)}
+.hero{background:var(--chalk);color:#F3F1EA;padding:64px 56px;background-image:linear-gradient(rgba(243,241,234,.06) 1px,transparent 1px);background-size:100% 34px}
+.hero h1{color:#F3F1EA;font-size:42px;line-height:1.12;font-weight:600;max-width:560px}
+.hero p{color:rgba(243,241,234,.82);font-size:17px;max-width:460px}
+.logo.big b{color:#F3F1EA;font-size:22px}
+.panel{background:transparent;padding:56px 48px}
+.panel h2{font-size:28px}
+.sw2 a{color:var(--pr);text-decoration:underline;text-underline-offset:3px}
+.books{gap:20px}
+.book{border-radius:12px;border-color:var(--line);box-shadow:none}
+.book:hover{transform:none;border-color:var(--ink3)}
+.cv{background:var(--sf2)}
+.cv .tag{background:var(--card);color:var(--pr)}
+#live{background:var(--chalk)}
+#lh,#lf{background:rgba(0,0,0,.18)}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+@media (max-width:820px){
+#side{width:auto;height:auto;position:static;flex-direction:row;overflow-x:auto;padding:10px 12px;gap:10px}
+.logo{display:none}
+nav{flex-direction:row;gap:4px}
+.ni.on::before{display:none}
+.ni.on{background:var(--sf2)}
+.who{display:none}
+.hero{display:none}
+.auth{grid-template-columns:1fr}
+.panel{padding:32px 22px}
+.stats{grid-template-columns:1fr 1fr}
+#app{padding:20px 16px 48px}
+}
+</style>
+</head>
+<body>
+<div id="shell"><aside id="side"></aside><main id="main"><div id="app"></div></main></div>
+<div id="toasts"></div>
+<div id="exam" hidden></div>
+<div id="pick" hidden></div>
+<div id="reader" hidden>
+<header id="rh">
+<button class="btn sec sm" onclick="closeReader()">← Geri</button>
+<b id="rtitle" class="rt"></b>
+<div class="grp"><button class="ic" onclick="goTo(page-1)">◀</button><input id="pnum" type="number" min="1" value="1" onchange="goTo(+this.value)"><span id="info">/ -</span><button class="ic" onclick="goTo(page+1)">▶</button></div>
+<span class="grp"><button class="ic" onclick="zoomBy(-.1)" title="Küçült">−</button><button id="zlbl" class="ic" onclick="zoomFit()" title="Sığdır" style="min-width:64px">Sığdır</button><button class="ic" onclick="zoomBy(.1)" title="Büyüt">+</button></span>
+<span id="tl" class="grp edit">
+<button class="ic tb on" data-tool="pen" onclick="setTool('pen')" title="Kalem">✏️</button><button class="ic tb" data-tool="hl" onclick="setTool('hl')" title="Fosforlu">🖍</button><button class="ic tb" data-tool="eraser" onclick="setTool('eraser')" title="Silgi">🧽</button>
+<i class="vr"></i>
+<button class="sw" data-c="#111827" style="background:#111827" onclick="setColor('#111827')"></button><button class="sw" data-c="#1d4ed8" style="background:#1d4ed8" onclick="setColor('#1d4ed8')"></button><button class="sw" data-c="#dc2626" style="background:#dc2626" onclick="setColor('#dc2626')"></button><button class="sw" data-c="#16a34a" style="background:#16a34a" onclick="setColor('#16a34a')"></button><button class="sw" data-c="#f59e0b" style="background:#f59e0b" onclick="setColor('#f59e0b')"></button>
+<input type="color" id="color" value="#1d4ed8" title="Renk" oninput="setColor(this.value)">
+<input type="range" id="size" min="1" max="20" value="3" title="Kalınlık">
+<i class="vr"></i>
+<button class="ic" onclick="undo()" title="Geri al">↩</button><button class="ic" onclick="clearPage()" title="Temizle">🗑</button>
+</span>
+<span id="rolabel" class="chip" hidden>Salt okunur</span>
+</header>
+<div id="wrap"><div id="stage"><canvas id="pdfc"></canvas><canvas id="drawc"></canvas></div></div>
+</div>
+<div id="nb" hidden><div class="nbt"><b>Defter</b><button class="ic" onclick="nbMove(-1)">◀</button><span id="nbp"></span><button class="ic" onclick="nbMove(1)">▶</button><button class="ic" onclick="nbNew()">＋</button><input type="color" id="nbcol" value="#111111"><input type="range" id="nbsz" min="1" max="20" value="3"><button class="ic" onclick="nbTool2='pen'">✏️</button><button class="ic" onclick="nbTool2='eraser'">🧽</button><button class="ic" onclick="nbUndo()">↩</button><span class="grow"></span><button class="btn sm sec" onclick="closeNb()">Kapat</button></div><div id="nbw"><canvas id="nbc2" width="1280" height="720"></canvas></div></div>
+<button id="lrest" class="btn" onclick="minLive(false)" hidden>🔴 Derse dön</button>
+<div id="live" hidden>
+<header id="lh"><b id="ltitle"></b><button class="btn sec sm" onclick="minLive(true)">⤡ Küçült</button><button id="lcode" class="chip big" onclick="copy(this.textContent)" hidden></button><span id="lcount" class="mu"></span><span id="recind" class="chip dw" hidden>● Kayıt yapılıyor</span><span class="mu">● Görüntü/ses kaydedilmez; katılım süresi ve açılan sayfalar kaydedilir</span><button id="lpg" class="chip" onclick="followPage()" hidden></button></header>
+<div id="lmain">
+<section id="boardw"><canvas id="board" width="1280" height="720"></canvas>
+<div id="btools" hidden><input type="color" id="bcol" value="#111111"><input type="range" id="bsz" min="1" max="20" value="4"><button id="lpen" class="ic" onclick="setBTool('pen')">✏️</button><button id="ler" class="ic" onclick="setBTool('eraser')">🧽</button><button class="ic" onclick="bundo()">↩</button><button class="ic" onclick="bclear()">🗑</button></div></section>
+<aside id="rside"><div id="vids"></div>
+<div id="tabs"><button data-k="chat" class="on" onclick="tab('chat')">Sohbet</button><button data-k="ppl" onclick="tab('ppl')">Katılımcılar</button></div>
+<div id="pchat"><div id="clog"></div><div class="row" style="padding:8px"><input id="cin" class="grow" placeholder="Mesaj yaz…" onkeydown="if(event.key=='Enter')sendChat()"><button class="btn sm" onclick="sendChat()">Gönder</button></div></div>
+<div id="pppl" hidden></div></aside>
+</div>
+<footer id="lf"><button id="bmic" class="cb" onclick="toggle('a')"><span>🎤</span><em>Mikrofon</em></button><button id="bcam" class="cb" onclick="toggle('v')"><span>📷</span><em>Kamera</em></button><button id="bhand" class="cb" onclick="send({t:'hand',v:!myHand})"><span>✋</span><em>El kaldır</em></button><button id="bbook" class="cb" onclick="pickBook()" hidden><span>📘</span><em>Kitap aç</em></button><button id="btop" class="cb" onclick="setTopic()" hidden><span>🏷</span><em>Konu notu</em></button><button class="cb" onclick="openNb()"><span>📓</span><em>Defter</em></button><button id="broll" class="cb" onclick="toggleRoll()" hidden><span>✅</span><em>Yoklama</em></button><button id="bhere" class="cb" onclick="send({t:'here'})" hidden><span>🙋</span><em>Buradayım</em></button><button id="bpoll" class="cb" onclick="startPoll()" hidden><span>📊</span><em>Anket</em></button><button id="brec" class="cb" onclick="toggleRec()" hidden><span>⏺</span><em>Kayıt</em></button><button class="cb dn" onclick="leaveLive()"><span>📞</span><em>Ayrıl</em></button><button id="bend" class="cb dn" onclick="endLive()" hidden><span>⏹</span><em>Dersi bitir</em></button></footer>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script>
+if(window.pdfjsLib)pdfjsLib.GlobalWorkerOptions.workerSrc="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js"
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)]
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))
+let token=localStorage.t,me=null,view="home",err="",mode="login"
+const titles={}
+const cache=bs=>bs.forEach(b=>titles[b.id]=b.title)
+function toast(m,t="",ms=3200){
+const e=document.createElement("div")
+e.className="toast "+t
+e.textContent=m
+$("#toasts").appendChild(e)
+if(ms)setTimeout(()=>e.remove(),ms)
+return e
+}
+function copy(c){
+(navigator.clipboard?navigator.clipboard.writeText(c):Promise.reject()).then(()=>toast("Kod kopyalandı","ok")).catch(()=>toast("Kod: "+c))
+}
+function theme(){
+const d=document.documentElement
+d.dataset.theme=d.dataset.theme=="dark"?"light":"dark"
+localStorage.th=d.dataset.theme
+}
+async function api(p,o={}){
+const h={...(token?{Authorization:"Bearer "+token}:{})}
+let body=o.body
+if(body&&!(body instanceof FormData)){h["Content-Type"]="application/json";body=JSON.stringify(body)}
+const r=await fetch("/api"+p,{method:o.method||"GET",headers:h,body})
+if(!r.ok){let m="Hata";try{const d=(await r.json()).detail;m=Array.isArray(d)?d.map(x=>x.msg).join(", "):(d||m)}catch{}throw new Error(m)}
+return o.raw?r:r.json()
+}
+function nav(){
+$("#shell").classList.toggle("out",!me)
+if(!me)return
+$("#side").innerHTML=`<div class="logo"><span>📖</span><b>Dijital Okul</b></div><nav>${navItems().map(([k,i,l])=>`<button class="ni ${view==k?"on":""}" onclick="go('${k}')"><span>${i}</span><em>${l}</em></button>`).join("")}</nav><div class="who"><div class="av">${esc((me.name||"?")[0]).toUpperCase()}</div><div class="wn"><b>${esc(me.name)}</b><small>${me.role=="teacher"?"Öğretmen":"Öğrenci"}</small></div><button class="ic" title="Tema" onclick="theme()">🌓</button><button class="ic" title="Çıkış" onclick="logout()">⎋</button></div>`
+}
+function go(v){view=v;err="";clearTimeout(exmT);render()}
+function logout(){api("/logout",{method:"POST"}).catch(()=>{});localStorage.removeItem("t");token=null;me=null;view="home";render()}
+function setMode(m){mode=m;err="";authView()}
+async function auth(){
+const f=Object.fromEntries(new FormData($("#af")))
+try{
+const r=await api(mode=="login"?"/login":"/register",{method:"POST",body:f})
+token=r.token;localStorage.t=token;me=r.user;err="";view="home";render()
+}catch(e){err=e.message;authView()}
+}
+let rEmail=""
+function resetView(){
+const f=mode=="forgot"
+$("#app").innerHTML=`<div class="auth"><div class="hero"><div class="logo big"><span>📖</span><b>Dijital Okul</b></div><h1>Şifreni sıfırla</h1><p>Doğrulama kodu okul sunucusunda oluşturulur. Kodu sunucu yöneticisinden iste.</p></div><form id="rf" class="panel" onsubmit="resetSubmit();return false"><h2>${f?"Şifre sıfırlama":"Yeni şifre"}</h2><label>E-posta<input name="email" type="email" required value="${esc(rEmail)}"></label>${f?"":`<label>Doğrulama kodu<input name="code" required inputmode="numeric" maxlength="6"></label><label>Yeni şifre<input name="password" type="password" required minlength="6"></label>`}<div class="err">${esc(err)}</div><button class="btn lg">${f?"Kod iste":"Şifreyi değiştir"}</button><p class="sw2"><a onclick="setMode('login')">Girişe dön</a>${f?"":` · <a onclick="setMode('forgot')">Yeni kod iste</a>`}</p></form></div>`
+}
+async function resetSubmit(){
+const f=Object.fromEntries(new FormData($("#rf")))
+rEmail=f.email||""
+try{
+if(mode=="forgot"){await api("/forgot",{method:"POST",body:{email:f.email}});err="";mode="reset";toast("Kod oluşturuldu, sunucu yöneticisinden iste","ok",6000);resetView()}
+else{await api("/reset",{method:"POST",body:{email:f.email,code:f.code,password:f.password}});err="";mode="login";toast("Şifren değiştirildi, giriş yapabilirsin","ok");authView()}
+}catch(e){err=e.message;resetView()}
+}
+function authView(){
+if(mode=="forgot"||mode=="reset")return resetView()
+if(mode=="guest")return guestView()
+const l=mode=="login"
+$("#app").innerHTML=`<div class="auth"><div class="hero"><div class="logo big"><span>📖</span><b>Dijital Okul</b></div><h1>Kitapların tabletinde, el yazın kalemde.</h1><p>PDF üzerine yaz, ödevini teslim et, canlı derse kodla katıl.</p></div>
+<form id="af" class="panel" onsubmit="auth();return false"><h2>${l?"Giriş yap":"Kayıt ol"}</h2>
+${l?"":`<label>Ad<input name="name" required></label>`}
+<label>E-posta<input name="email" type="email" required></label>
+<label>Şifre<input name="password" type="password" required minlength="6"></label>
+${l?"":`<label>Rol<select name="role"><option value="student">Öğrenci</option><option value="teacher">Öğretmen</option><option value="parent">Veli</option></select></label><label>Veli kodu (yalnızca veli için)<input name="code" placeholder="Öğrencinden aldığın kod"></label>`}
+<div class="err">${esc(err)}</div>
+<button class="btn lg">${l?"Giriş yap":"Hesap oluştur"}</button>
+<p class="sw2">${l?`Hesabın yok mu? <a onclick="setMode('reg')">Kayıt ol</a> · <a onclick="setMode('forgot')">Şifremi unuttum</a>`:`Zaten hesabın var mı? <a onclick="setMode('login')">Giriş yap</a>`}</p><p class="sw2"><a onclick="setMode('guest')">Misafir olarak katıl (kodla)</a></p></form></div>`
+}
+async function homeView(){
+const [bs,as,ss]=await Promise.all([api("/books"),api("/assignments"),api("/submissions")])
+cache(bs)
+const t=me.role=="teacher"
+const ls=t?await api("/lessons"):[],cl=t?await api("/classes"):[]
+const st=t?[["📚",bs.length,"Kitap"],["📝",as.length,"Ödev"],["📥",ss.filter(s=>s.status=="teslim").length,"Bekleyen teslim"],["🎥",ls.length,"Aktif ders"]]:[["📚",bs.length,"Kitap"],["📝",as.length,"Ödev"],["📤",ss.length,"Teslim"],["⭐",ss.filter(s=>s.status!="teslim").length,"Değerlendirilen"]]
+const recent=bs.slice(0,4)
+$("#app").innerHTML=`<div class="hd"><div><h1>Merhaba, ${esc(me.name)} 👋</h1><p class="mu">${t?"Bugün ne anlatıyoruz?":"Bugün ne çalışıyoruz?"}</p></div></div>
+<div class="stats">${st.map(([i,n,l])=>`<div class="stat"><span>${i}</span><b>${n}</b><small>${l}</small></div>`).join("")}</div>
+<div class="two"><div class="card"><h3>${t?"Canlı ders başlat":"Derse katıl"}</h3>${t?lessonForm(cl):`<p class="mu">Öğretmeninin verdiği 6 haneli kodu gir.</p><div class="row"><input id="lcodein" class="code grow" maxlength="6" placeholder="ABC123" onkeydown="if(event.key=='Enter')joinCode()"><button class="btn" onclick="joinCode()">Katıl</button></div>`}</div>
+<div class="card"><h3>Devam et</h3>${recent.length?`<div class="list">${recent.map(b=>`<div class="li" onclick="openBook(${b.id})"><span>📘</span><div class="grow"><b>${esc(b.title)}</b><small>${localStorage["lp"+b.id]?"Sayfa "+localStorage["lp"+b.id]+" / "+b.pages:b.pages+" sayfa"}</small></div><span>›</span></div>`).join("")}</div>`:`<p class="mu">Henüz kitap yok. Kitaplıktan PDF yükle.</p>`}</div></div>`
+}
+async function libView(search=""){
+const bs=await api("/books?search="+encodeURIComponent(search))
+cache(bs)
+$("#app").innerHTML=`<div class="hd"><h1>Kitaplık</h1><div class="row"><input id="sq" class="srch" placeholder="Kitaplarda ara…" value="${esc(search)}" onkeydown="if(event.key=='Enter')libView(this.value)">${me.role=="teacher"?`<label class="chk"><input type="checkbox" id="us"> Herkesle paylaş</label>`:""}<input id="up" type="file" accept="application/pdf" hidden onchange="upload()"><input id="upi" type="file" accept="image/*" multiple hidden onchange="uploadImgs()"><input id="upv" type="file" accept="video/*" hidden onchange="uploadVideo()"><button class="btn sec" onclick="$('#upi').click()">🖼 Resimlerden kitap</button><label class="chk"><input type="checkbox" id="vsp" checked> Sayfaları tek tek ayır</label><button class="btn sec" onclick="$('#upv').click()">🎬 Videodan kitap</button><button class="btn sec" onclick="pdfLink()">🔗 PDF linkinden</button><button class="btn" onclick="$('#up').click()">＋ PDF yükle</button></div></div>
+${search?`<p class="mu">“${esc(search)}” için sonuçlar</p>`:""}
+<div class="books">${bs.map(b=>`<div class="book"><div class="cv" onclick="openBook(${b.id},null,${b.page||0})"><img data-b="${b.id}" alt=""><span class="pg">${b.pages} s.</span>${b.shared?`<span class="tag">Paylaşılan</span>`:""}</div><div class="bi"><b title="${esc(b.title)}">${esc(b.title)}</b>${b.snip?`<small>s.${b.page}: …${esc(b.snip)}…</small>`:`<small>${localStorage["lp"+b.id]?"Sayfa "+localStorage["lp"+b.id]:"Başlanmadı"}</small>`}</div>${b.owner_id==me.id?`<button class="ic dl" title="Sil" onclick="delBook(${b.id})">🗑</button>`:""}</div>`).join("")||`<div class="empty">📚<p>Kitap bulunamadı.</p></div>`}</div>`
+$$("img[data-b]").forEach(i=>api(`/books/${i.dataset.b}/cover`,{raw:true}).then(r=>r.blob()).then(b=>i.src=URL.createObjectURL(b)).catch(()=>{}))
+}
+let vidJobs=[]
+async function uploadVideo(){
+const f=$("#upv").files[0]
+$("#upv").value=""
+if(!f)return
+const fd=new FormData()
+fd.append("file",f)
+fd.append("title",f.name.replace(/\.[^.]+$/,""))
+if($("#us")&&$("#us").checked)fd.append("shared",1)
+fd.append("split",$("#vsp")&&$("#vsp").checked?1:0)
+try{const r=await api("/books/video",{method:"POST",body:fd});vidJobs.push(r.job);toast("Video yüklendi, sayfalar ayıklanıyor. Başka işine devam edebilirsin.","ok",6000)}catch(e){toast(e.message,"bad",8000)}
+}
+setInterval(async()=>{
+for(const id of[...vidJobs]){
+let r
+try{r=await api("/ai/jobs/"+id)}catch(e){vidJobs=vidJobs.filter(x=>x!==id);toast(e.message,"bad",7000);continue}
+if(r.status=="running")continue
+vidJobs=vidJobs.filter(x=>x!==id)
+if(r.status=="done"){toast("Videodan kitap hazır · "+r.pages+" sayfa","ok",7000);if(view=="lib")libView()}
+else toast(r.error,"bad",9000)
+}
+},3000)
+async function pdfLink(){
+const link=prompt("PDF bağlantısı (kullanım izni olduğun bir dosya):")
+if(!link)return
+const fd=new FormData()
+fd.append("url",link)
+fd.append("title","")
+if($("#us")&&$("#us").checked)fd.append("shared",1)
+const t=toast("PDF indiriliyor…","",0)
+try{const r=await api("/books/url",{method:"POST",body:fd});toast("Kitap eklendi · "+r.pages+" sayfa","ok");if(view=="lib")libView()}catch(e){toast(e.message,"bad",7000)}
+t.remove()
+}
+async function uploadImgs(){
+const fs=[...$("#upi").files]
+$("#upi").value=""
+if(!fs.length)return
+fs.sort((a,b)=>a.name.localeCompare(b.name,undefined,{numeric:true}))
+const fd=new FormData()
+fs.forEach(f=>fd.append("files",f))
+fd.append("title",fs[0].name.replace(/\.[^.]+$/,"").replace(/[-_ ]*\d+$/,"")||"Kitap")
+if($("#us")&&$("#us").checked)fd.append("shared",1)
+const t=toast(fs.length+" resim birleştirilip kitaba çevriliyor…","",0)
+try{const r=await api("/books/images",{method:"POST",body:fd});toast("Kitap eklendi · "+r.pages+" sayfa","ok")}catch(e){toast(e.message,"bad",7000)}
+t.remove()
+}
+async function upload(){
+const f=$("#up").files[0]
+if(!f)return
+const fd=new FormData()
+fd.append("file",f);fd.append("title",f.name.replace(/\.pdf$/i,""))
+if($("#us")&&$("#us").checked)fd.append("shared",1)
+const t=toast("Yükleniyor, metin çıkarılıyor…","",0)
+try{await api("/books",{method:"POST",body:fd});toast("Kitap eklendi","ok")}catch(e){toast(e.message,"bad")}
+t.remove()
+libView()
+}
+async function delBook(id){
+if(confirm("Kitap silinsin mi?")){try{await api("/books/"+id,{method:"DELETE"})}catch(e){toast(e.message,"bad")}libView()}
+}
+async function annView(){
+const rows=await api("/announcements"),t=me.role=="teacher"
+const cls=t?await api("/classes"):[]
+const recs=await api("/recordings").catch(()=>[])
+$("#app").innerHTML=`<div class="hd"><h1>Duyurular</h1></div>${recCardHtml(recs)}
+${t?`<div class="card"><h3>Yeni duyuru</h3><div class="form"><select id="ac">${cls.map(c=>`<option value="${c.id}">${esc(c.name)}</option>`).join("")}</select><input id="at" placeholder="Başlık"><textarea id="ab" placeholder="Duyuru metni"></textarea><div><button class="btn" onclick="addAnn()">Yayımla</button></div></div></div>`:""}
+${rows.map(a=>`<div class="card"><div class="row"><b class="grow">${esc(a.title)}</b><span class="chip">${esc(a.cname||"")}</span>${t?`<button class="btn dn sm" onclick="delAnn(${a.id})">Sil</button>`:""}</div><p class="pre">${esc(a.body||"")}</p><small class="mu">${a.teacher?esc(a.teacher)+" · ":""}${fdt(a.created)}</small></div>`).join("")||`<div class="empty">📢<p>Henüz duyuru yok.</p></div>`}`
+}
+async function addAnn(){
+const title=$("#at").value.trim(),body=$("#ab").value.trim(),class_id=+$("#ac").value
+if(!title||!class_id)return toast("Sınıf seç ve başlık yaz","bad")
+try{await api("/announcements",{method:"POST",body:{title,body,class_id}});toast("Duyuru yayımlandı","ok");annView()}catch(e){toast(e.message,"bad")}
+}
+async function delAnn(id){
+if(!confirm("Duyuru silinsin mi?"))return
+try{await api("/announcements/"+id,{method:"DELETE"});annView()}catch(e){toast(e.message,"bad")}
+}
+function fbTpls(){try{return JSON.parse(localStorage.fbtpl||"[]")}catch{return[]}}
+function fbAdd(){const t=prompt("Yeni geri bildirim şablonu:");if(!t||!t.trim())return;localStorage.fbtpl=JSON.stringify([...new Set([...fbTpls(),t.trim()])]);asgView()}
+async function asgView(){
+const [as,ss,bs]=await Promise.all([api("/assignments"),api("/submissions"),api("/books")])
+cache(bs)
+const t=me.role=="teacher"
+const opts=bs.map(b=>`<option value="${b.id}">${esc(b.title)}</option>`).join("")
+let h=`<div class="hd"><h1>Ödevler</h1></div>`
+if(t)h+=`<details class="card"><summary><b>＋ Yeni ödev</b></summary><div class="form"><input id="at" placeholder="Başlık"><textarea id="ad" placeholder="Açıklama"></textarea><div class="row"><select id="ab" class="grow"><option value="">Kitap yok</option>${opts}</select><input id="adue" type="date"></div><button class="btn" onclick="addAsg()">Oluştur</button></div></details>`
+h+=as.map(a=>{
+const my=ss.filter(s=>s.assignment_id==a.id),own=my[0]
+return `<div class="card"><div class="row"><b class="grow">${esc(a.title)}</b>${a.due?`<span class="chip">Son: ${esc(a.due)}</span>`:""}</div><small>${esc(a.teacher)}</small><p>${esc(a.description)}</p>${a.book_id?`<button class="btn sec sm" onclick="openBook(${a.book_id})">📘 Kitabı aç</button>`:""}
+${t?`<div class="row"><button class="btn sec sm" onclick="missing(${a.id})">👀 Teslim etmeyenler</button></div><datalist id="fbl">${fbTpls().map(x=>`<option value="${esc(x)}">`).join("")}</datalist><div class="row"><button class="btn sec sm" onclick="fbAdd()">＋ Geri bildirim şablonu</button></div>`+my.map(s=>`<div class="sub"><div class="row"><b class="grow">${esc(s.student)}</b><span class="chip">${esc(s.status)}</span></div><p>${esc(s.text)}</p><div class="row">${s.book_id?`<button class="btn sec sm" onclick="openBook(${s.book_id},${s.student_id})">✏️ Çizimleri gör</button>`:""}<input id="fg${s.id}" placeholder="Not" value="${esc(s.grade)}" style="width:80px"><input id="ff${s.id}" list="fbl" class="grow" placeholder="Geri bildirim" value="${esc(s.feedback)}"><button class="btn sm" onclick="sendFb(${s.id})">Kaydet</button></div></div>`).join(""):`<div class="sub"><div class="row"><select id="sb${a.id}" class="grow"><option value="">Kitap yok</option>${opts}</select><input id="st${a.id}" class="grow" placeholder="Not" value="${esc(own?.text||"")}"><button class="btn sm" onclick="sendSub(${a.id})">${own?"Güncelle":"Gönder"}</button></div>${own?`<p><span class="chip">${esc(own.status)}</span> ${own.grade?`Not: <b>${esc(own.grade)}</b>`:""}</p>${own.feedback?`<p class="mu">${esc(own.feedback)}</p>`:""}`:""}</div>`}</div>`
+}).join("")||`<div class="empty">📝<p>Ödev yok.</p></div>`
+$("#app").innerHTML=h
+as.forEach(a=>{const o=ss.find(s=>s.assignment_id==a.id),e=$("#sb"+a.id);if(o&&e&&o.book_id)e.value=o.book_id})
+}
+async function addAsg(){
+try{await api("/assignments",{method:"POST",body:{title:$("#at").value,description:$("#ad").value,book_id:+$("#ab").value||null,due:$("#adue").value}});toast("Ödev oluşturuldu","ok")}catch(e){toast(e.message,"bad")}
+asgView()
+}
+async function sendSub(id){
+try{await api(`/assignments/${id}/submit`,{method:"POST",body:{book_id:+$("#sb"+id).value||null,text:$("#st"+id).value}});toast("Teslim edildi","ok")}catch(e){toast(e.message,"bad")}
+asgView()
+}
+async function sendFb(id){
+try{await api(`/submissions/${id}/feedback`,{method:"POST",body:{feedback:$("#ff"+id).value,grade:$("#fg"+id).value}});toast("Kaydedildi","ok")}catch(e){toast(e.message,"bad")}
+asgView()
+}
+async function liveView(){
+if(me.role=="teacher"){
+const rows=await api("/lessons"),cl=await api("/classes")
+$("#app").innerHTML=`<div class="hd"><h1>Canlı ders</h1></div><div class="card"><h3>Yeni ders</h3>${lessonForm(cl)}</div><h3 class="sh2">Aktif derslerin</h3>${rows.map(l=>`<div class="card row"><div class="grow"><b>${esc(l.title)}</b><small>${l.cname?esc(l.cname)+" · ":""}${l.online} katılımcı${l.guests?" · misafir açık":""}${l.topic?" · "+esc(l.topic):""}</small></div>${l.code?`<button class="chip big" title="Kopyala" onclick="copy('${l.code}')">${l.code}</button>`:""}<button class="btn" data-t="${esc(l.title)}" onclick="joinLive(${l.id},this.dataset.t,'${l.code||""}')">Gir</button><button class="btn dn" onclick="endFromList(${l.id})">Bitir</button></div>`).join("")||`<div class="empty">🎥<p>Aktif ders yok.</p></div>`}`
+}else{
+const act=await api("/lessons/active")
+$("#app").innerHTML=`<div class="hd"><h1>Canlı ders</h1></div>${activeList(act)}<div class="card center"><h3>Ders koduyla katıl</h3><p class="mu">Öğretmeninin verdiği 6 haneli kodu gir.</p><div class="row cj"><input id="lcodein" class="code" maxlength="6" placeholder="ABC123" onkeydown="if(event.key=='Enter')joinCode()"><button class="btn lg" onclick="joinCode()">Katıl</button></div><small>Görüntü ve ses kaydedilmez; derse katılım süren ve işlenen sayfalar öğretmene görünür. Mikrofon ve kameran kapalı başlar.</small></div>`
+}
+}
+async function startLive(){
+const t=$("#lt").value.trim()
+if(!t)return toast("Başlık gerekli","bad")
+try{const r=await api("/lessons",{method:"POST",body:{title:t,class_id:+($("#lcls")&&$("#lcls").value)||null,guests:$("#lgst")&&$("#lgst").checked?1:0}});joinLive(r.id,t,r.code)}catch(e){toast(e.message,"bad")}
+}
+async function joinCode(){
+const c=$("#lcodein").value.trim().toUpperCase()
+if(c.length<6)return toast("6 haneli kodu gir","bad")
+try{const r=await api("/lessons/join",{method:"POST",body:{code:c}});joinLive(r.id,r.title,c)}catch(e){toast(e.message,"bad")}
+}
+async function endFromList(id){
+try{await api(`/lessons/${id}/end`,{method:"POST"})}catch(e){toast(e.message,"bad")}
+liveView()
+}
+async function render(){
+nav()
+if(!token)return authView()
+if(!me){try{me=await api("/me")}catch{return logout()}nav()}
+if(me.role=="guest"&&!["live","exm"].includes(view))view="live"
+nav()
+try{await({home:homeView,lib:libView,asg:asgView,ann:annView,prog:progView,par:parView,adm:admView,live:liveView,cls:clsView,exm:exmView,set:setView}[view]||homeView)()}catch(e){$("#app").innerHTML=`<div class="err">${esc(e.message)}</div>`}
+}
+let pdf,bid,page=1,scale="fit",cs=1.2,tool="pen",who=null,ro=false,strokes={},cur=null,seq=0,task=null
+const pc=$("#pdfc"),dc=$("#drawc"),px=pc.getContext("2d"),dx=dc.getContext("2d")
+function setTool(t){tool=t;$$("#tl .tb").forEach(b=>b.classList.toggle("on",b.dataset.tool==t))}
+function setColor(c){$("#color").value=c;$$("#tl .sw").forEach(b=>b.classList.toggle("on",b.dataset.c==c))}
+async function openBook(id,uid=null,pg=0){
+try{
+const r=await api(`/books/${id}/file`,{raw:true})
+if(!window.pdfjsLib)throw new Error("PDF görüntüleyici yüklenemedi. İnternet bağlantısını kontrol et.")
+pdf=await pdfjsLib.getDocument({data:await r.arrayBuffer()}).promise
+}catch(e){return toast(e.message,"bad")}
+bid=id;who=uid;ro=!!uid;strokes={}
+page=Math.min(Math.max(pg||(!uid&&+localStorage["lp"+id])||1,1),pdf.numPages)
+$("#reader").classList.toggle("ro",ro);$("#rolabel").hidden=!ro
+$("#rtitle").textContent=titles[id]||""
+$("#reader").style.zIndex=$("#live").hidden?50:70;$("#reader").hidden=false;setTool("pen");setColor($("#color").value)
+show()
+}
+function closeReader(){$("#reader").hidden=true;if(isHost&&!$("#live").hidden)send({t:"bookclose"});pdf=null;follow=false;if(task)task.cancel();if(view=="home"||view=="lib")render()}
+async function show(){
+const s=++seq
+try{
+const pg=await pdf.getPage(page)
+if(!strokes[page])strokes[page]=await api(`/notes/${bid}/${page}`+(who?`?user=${who}`:""))
+if(s!==seq)return
+const w=$("#wrap").clientWidth-36
+cs=scale=="fit"?Math.min(3,Math.max(.3,w/pg.getViewport({scale:1}).width)):scale
+const vp=pg.getViewport({scale:cs})
+if(task)task.cancel()
+pc.width=dc.width=Math.floor(vp.width);pc.height=dc.height=Math.floor(vp.height)
+task=pg.render({canvasContext:px,viewport:vp,background:"#ffffff"})
+try{await task.promise}catch{return}
+if(s!==seq)return
+redraw()
+$("#info").textContent=`/ ${pdf.numPages}`
+$("#zlbl").textContent=scale=="fit"?"Sığdır":Math.round(cs*100)+"%"
+$("#pnum").value=page
+if(!ro)localStorage["lp"+bid]=page
+if(isHost&&!ro&&!$("#live").hidden)send({t:"page",book_id:bid,page})
+}catch(e){$("#info").textContent="Hata: "+e.message}
+}
+function zoomBy(d){
+const base=scale=="fit"?cs:scale
+scale=Math.min(3,Math.max(.4,Math.round((base+d)*10)/10))
+if(pdf)show()
+}
+function zoomFit(){scale="fit";if(pdf)show()}
+function goTo(n){if(pdf&&n>=1&&n<=pdf.numPages&&n!=page){const d=n>page?1:-1;page=n;show().then(()=>flipPage(d))}else if(pdf)$("#pnum").value=page}
+function flipPage(d){
+const st=pc.parentElement
+st.style.transformOrigin=d>0?"left center":"right center"
+st.animate([{transform:`perspective(1400px) rotateY(${d*42}deg)`,opacity:.25,filter:"brightness(.7)"},{transform:"perspective(1400px) rotateY(0deg)",opacity:1,filter:"brightness(1)"}],{duration:420,easing:"cubic-bezier(.2,.7,.2,1)"})
+}
+let swipe=null
+const wrapEl=$("#wrap")
+wrapEl.style.touchAction="pan-y"
+const touches=new Map()
+let pinch=null,zq=false
+function queueShow(){if(zq)return;zq=true;requestAnimationFrame(()=>{zq=false;if(pdf)show()})}
+wrapEl.addEventListener("pointerdown",e=>{if(e.pointerType=="touch")touches.set(e.pointerId,{x:e.clientX,y:e.clientY})})
+wrapEl.addEventListener("pointermove",e=>{
+if(!touches.has(e.pointerId))return
+touches.set(e.pointerId,{x:e.clientX,y:e.clientY})
+if(touches.size!=2||!pdf)return
+const[a,b]=[...touches.values()],d=Math.hypot(a.x-b.x,a.y-b.y)
+if(!pinch)pinch={d0:Math.max(d,1),s0:cs}
+swipe=null
+const ns=Math.min(3,Math.max(.4,Math.round(pinch.s0*d/pinch.d0*100)/100))
+if(ns!==scale){scale=ns;queueShow()}
+})
+const endTouch=e=>{touches.delete(e.pointerId);if(touches.size<2)pinch=null}
+wrapEl.addEventListener("pointerup",endTouch)
+wrapEl.addEventListener("pointercancel",endTouch)
+wrapEl.addEventListener("pointerdown",e=>{swipe=e.pointerType=="touch"?{x:e.clientX,y:e.clientY,t:Date.now()}:null})
+wrapEl.addEventListener("pointercancel",()=>{swipe=null})
+wrapEl.addEventListener("pointerup",e=>{
+if(!swipe)return
+const dx=e.clientX-swipe.x,dy=e.clientY-swipe.y,dt=Date.now()-swipe.t
+swipe=null
+if(Math.abs(dx)>60&&Math.abs(dy)<50&&dt<700)goTo(page+(dx<0?1:-1))
+})
+function stroke(s){
+dx.save();dx.lineCap=dx.lineJoin="round"
+dx.globalCompositeOperation=s.e?"destination-out":"source-over"
+dx.globalAlpha=s.a||1
+dx.strokeStyle=s.c;dx.lineWidth=s.w*cs
+dx.beginPath()
+s.p.forEach(([x,y],i)=>i?dx.lineTo(x*cs,y*cs):dx.moveTo(x*cs,y*cs))
+if(s.p.length==1)dx.lineTo(s.p[0][0]*cs+.01,s.p[0][1]*cs)
+dx.stroke();dx.restore()
+}
+function redraw(){dx.clearRect(0,0,dc.width,dc.height);(strokes[page]||[]).forEach(stroke)}
+function pt(e){
+const r=dc.getBoundingClientRect()
+return[(e.clientX-r.left)*(dc.width/r.width)/cs,(e.clientY-r.top)*(dc.height/r.height)/cs]
+}
+function save(){return api(`/notes/${bid}/${page}`,{method:"PUT",body:strokes[page]||[]}).catch(e=>toast(e.message,"bad"))}
+dc.addEventListener("pointerdown",e=>{
+if(ro||!pdf||!strokes[page]||e.pointerType=="touch")return
+dc.setPointerCapture(e.pointerId)
+const p=e.pressure>0?e.pressure:.5,er=tool=="eraser",hl=tool=="hl"
+cur={c:$("#color").value,w:+$("#size").value*(hl?5:(.5+p)*(er?4:1)),e:er,a:hl?.35:1,p:[pt(e)]}
+strokes[page].push(cur);redraw()
+})
+dc.addEventListener("pointermove",e=>{if(cur){cur.p.push(pt(e));redraw()}})
+const end=()=>{if(cur){cur=null;save()}}
+dc.addEventListener("pointerup",end)
+dc.addEventListener("pointercancel",end)
+function undo(){if(!ro&&pdf){(strokes[page]||[]).pop();redraw();save()}}
+function clearPage(){if(!ro&&pdf&&confirm("Sayfa temizlensin mi?")){strokes[page]=[];redraw();save()}}
+document.addEventListener("keydown",e=>{
+if($("#reader").hidden||e.target.tagName=="INPUT")return
+if(e.ctrlKey&&e.key.toLowerCase()=="z"){e.preventDefault();undo()}
+if(e.key=="ArrowLeft")goTo(page-1)
+if(e.key=="ArrowRight")goTo(page+1)
+if(e.key=="Escape")closeReader()
+})
+window.addEventListener("resize",()=>{if(pdf&&scale=="fit"&&!$("#reader").hidden)show()})
+let recorder=null,recChunks=[],rollOn=false,ws,lid,myId,myHand=false,isHost=false,writers=new Set(),local=null,peers={},ls=[],li={},lc=null,ln=0,lbuf=[],lt=null,chain=Promise.resolve(),closing=false,btool="pen"
+const ICE={iceServers:[{urls:"stun:stun.l.google.com:19302"}]}
+const bc=$("#board"),bx=bc.getContext("2d")
+const send=m=>ws&&ws.readyState==1&&ws.send(JSON.stringify(m))
+let nbData={},nbPg=1,nbTool2="pen",nbCur=null,nbLid=null
+const nbcv=$("#nbc2"),nbx=nbcv.getContext("2d")
+function nbStroke(s){nbx.lineCap=nbx.lineJoin="round";nbx.strokeStyle=s.c;nbx.lineWidth=s.w;nbx.beginPath();s.p.forEach(([x,y],i)=>i?nbx.lineTo(x,y):nbx.moveTo(x,y));if(s.p.length==1)nbx.lineTo(s.p[0][0]+.01,s.p[0][1]);nbx.stroke()}
+function nbRedraw(){nbx.fillStyle="#fff";nbx.fillRect(0,0,1280,720);(nbData[nbPg]||[]).forEach(nbStroke)}
+function nbPt(e){const r=nbcv.getBoundingClientRect();return[Math.round((e.clientX-r.left)*1280/r.width),Math.round((e.clientY-r.top)*720/r.height)]}
+function nbSave(){api(`/lessons/${nbLid}/notebook/${nbPg}`,{method:"PUT",body:nbData[nbPg]||[]}).catch(e=>toast(e.message,"bad"))}
+async function openNb(){
+if(!lid)return
+nbLid=lid
+try{nbData=await api(`/lessons/${lid}/notebook`)}catch(e){return toast(e.message,"bad")}
+nbPg=1;nbShow();$("#nb").hidden=false
+}
+function nbShow(){$("#nbp").textContent="Sayfa "+nbPg;nbRedraw()}
+function nbMove(d){if(nbPg+d>=1){nbPg+=d;nbShow()}}
+function nbNew(){nbPg=Math.max(0,...Object.keys(nbData).map(Number))+1;nbShow()}
+function nbUndo(){(nbData[nbPg]||[]).pop();nbRedraw();nbSave()}
+function closeNb(){$("#nb").hidden=true}
+nbcv.addEventListener("pointerdown",e=>{nbcv.setPointerCapture(e.pointerId);const er=nbTool2=="eraser",p=e.pressure>0?e.pressure:.5;nbCur={c:er?"#ffffff":$("#nbcol").value,w:+$("#nbsz").value*(.5+p)*(er?4:1),p:[nbPt(e)]};(nbData[nbPg]=nbData[nbPg]||[]).push(nbCur);nbRedraw()})
+nbcv.addEventListener("pointermove",e=>{if(nbCur){nbCur.p.push(nbPt(e));nbRedraw()}})
+const nbEnd=()=>{if(nbCur){nbCur=null;nbSave()}}
+nbcv.addEventListener("pointerup",nbEnd)
+nbcv.addEventListener("pointercancel",nbEnd)
+async function getMedia(){
+for(const c of[{audio:true,video:true},{audio:true}]){
+try{return await navigator.mediaDevices.getUserMedia(c)}catch{}
+}
+return null
+}
+function tile(id,name,stream,mute){
+let t=$("#t"+id)
+if(!t){t=document.createElement("div");t.className="tile";t.id="t"+id;t.innerHTML="<video autoplay playsinline></video><span></span>";$("#vids").appendChild(t);t.lastChild.textContent=name}
+t.firstChild.muted=!!mute
+if(stream)t.firstChild.srcObject=stream
+}
+async function joinLive(id,title,code){
+if(!$("#live").hidden)return
+local=me.role=="teacher"?await getMedia():null
+if(!local)local=new MediaStream()
+lid=id;closing=false;peers={};ls=[];li={};writers=new Set();isHost=false;myHand=false;lc=null
+$("#vids").innerHTML="";$("#clog").innerHTML="";$("#ltitle").textContent=title
+pageInfo=null;follow=false;$("#lpg").hidden=true
+$("#lcode").textContent=code||"";$("#lcode").hidden=!code
+$("#live").hidden=false
+tile("me","Ben",local,true)
+setBTool("pen");mediaUi();boardUi();handUi();plist();tab("chat");bredraw()
+ws=new WebSocket(`${location.protocol=="https:"?"wss":"ws"}://${location.host}/ws/live/${id}?token=${token}`)
+ws.onmessage=e=>{chain=chain.then(()=>onLive(JSON.parse(e.data))).catch(()=>{})}
+ws.onclose=()=>{if(!closing)leaveLive()}
+}
+function minLive(v){$("#live").classList.toggle("min",v);$("#lrest").hidden=!v}
+function leaveLive(msg){
+closing=true
+if(recorder)recorder.stop()
+minLive(false)
+closeNb()
+if(ws)ws.close()
+Object.values(peers).forEach(p=>p.rc.close())
+peers={}
+if(local)local.getTracks().forEach(t=>t.stop())
+local=null
+if(!$("#reader").hidden)closeReader()
+$("#live").hidden=true
+$("#vids").innerHTML=""
+if(msg)toast(msg)
+if(me)render()
+}
+async function onLive(m){
+if(m.t=="init"){
+myId=m.id;isHost=m.host;writers=new Set(m.writers);ls=m.board;li={};ls.forEach(s=>li[s.k]=s)
+boardUi();bredraw();if(m.page)showPage(m.page,true)
+rollOn=!!m.roll;footUi();recUi(!!m.rec);if(m.poll&&!isHost)showPoll(m.poll.q,m.poll.opts)
+for(const p of m.peers)await makePeer(p.id,p.name,true,p.host,p.hand,p.uid)
+plist()
+}else if(m.t=="join"){await makePeer(m.id,m.name,false,m.host,false,m.uid);plist()}
+else if(m.t=="sig")await onSig(m)
+else if(m.t=="leave"){
+const p=peers[m.id]
+if(p){p.rc.close();delete peers[m.id]}
+const t=$("#t"+m.id)
+if(t)t.remove()
+plist()
+}
+else if(m.t=="chat")logChat(m.name,m.text)
+else if(m.t=="grant"){m.v?writers.add(m.uid):writers.delete(m.uid);boardUi();plist()}
+else if(m.t=="roll"){rollOn=m.v;footUi();if(!m.v&&isHost)showAbsent()}
+else if(m.t=="rec")recUi(m.v)
+else if(m.t=="here_ok")toast("Yoklamaya katıldın ✓","ok")
+else if(m.t=="here_count"){if(isHost)toast(m.n+" öğrenci yoklamada","ok")}
+else if(m.t=="poll"){if(!isHost)showPoll(m.q,m.opts);else toast("Anket gönderildi","ok")}
+else if(m.t=="pollres"){if(m.final){$("#pick").hidden=true;logChat("Anket",m.q+" → "+m.opts.map((o,i)=>o+": "+m.counts[i]).join(" · "))}else if(isHost)logChat("Anket",m.counts.map((c,i)=>(i+1)+". şık: "+c).join(" · "))}
+else if(m.t=="bookclose"){pageInfo=null;$("#lpg").hidden=true;if(!isHost&&!$("#reader").hidden)closeReader()}
+else if(m.t=="hand"){
+if(m.id==myId)myHand=m.v
+else if(peers[m.id]){peers[m.id].hand=m.v;if(m.v&&isHost)toast(peers[m.id].name+" el kaldırdı ✋")}
+handUi();plist()
+}
+else if(m.t=="draw"){
+let s=li[m.k]
+if(!s){s={k:m.k,c:m.c,w:m.w,p:[]};li[m.k]=s;ls.push(s)}
+s.p.push(...m.p);bredraw()
+}
+else if(m.t=="undo"){const s=ls.pop();if(s)delete li[s.k];bredraw()}
+else if(m.t=="clear"){ls=[];li={};bredraw()}
+else if(m.t=="page")showPage(m)
+else if(m.t=="ended")leaveLive(m.secs!=null?"Ders sonlandırıldı · katılım süren: "+fmtSecs(m.secs):"Ders sonlandırıldı")
+}
+async function makePeer(id,name,init,host,hand,uid){
+const rc=new RTCPeerConnection(ICE)
+peers[id]={rc,name,host:!!host,hand:!!hand,uid}
+tile(id,name)
+rc.ontrack=e=>tile(id,name,e.streams[0])
+rc.onicecandidate=e=>{if(e.candidate)send({t:"sig",to:id,d:{ice:e.candidate}})}
+if(init){
+await attach(rc)
+await rc.setLocalDescription(await rc.createOffer())
+send({t:"sig",to:id,d:{sdp:rc.localDescription}})
+}
+}
+async function onSig(m){
+const p=peers[m.from]
+if(!p)return
+const rc=p.rc,d=m.d
+if(d.sdp){
+await rc.setRemoteDescription(d.sdp)
+if(d.sdp.type=="offer"){
+await attach(rc)
+await rc.setLocalDescription(await rc.createAnswer())
+send({t:"sig",to:m.from,d:{sdp:rc.localDescription}})
+}
+}else if(d.ice){try{await rc.addIceCandidate(d.ice)}catch{}}
+}
+function logChat(n,t){
+const d=document.createElement("div"),b=document.createElement("b")
+b.textContent=n+": "
+d.append(b,document.createTextNode(t))
+$("#clog").appendChild(d)
+$("#clog").scrollTop=1e9
+}
+function sendChat(){
+const i=$("#cin")
+if(i.value.trim())send({t:"chat",text:i.value})
+i.value=""
+}
+function tab(k){
+$("#pchat").hidden=k!="chat"
+$("#pppl").hidden=k!="ppl"
+$$("#tabs button").forEach(b=>b.classList.toggle("on",b.dataset.k==k))
+}
+function plist(){
+const rows=[{id:"me",uid:me.id,name:me.name+" (ben)",lbl:"Ben",host:isHost,hand:myHand},...Object.entries(peers).map(([id,p])=>({id,uid:p.uid,name:p.name,lbl:p.name,host:p.host,hand:p.hand}))]
+$("#pppl").innerHTML=rows.map(r=>`<div class="pp"><span class="av sm">${esc((r.name||"?")[0]).toUpperCase()}</span><span class="grow">${esc(r.name)} ${r.host?`<span class="tag">Öğretmen</span>`:""}</span>${r.hand?"<span>✋</span>":""}${isHost&&!r.host&&r.id!="me"?`<button class="btn sm sec" onclick="send({t:'grant',uid:${r.uid},v:${!writers.has(r.uid)}})">${writers.has(r.uid)?"Tahtayı kapat":"Tahtaya izin"}</button>`:""}${isHost&&r.hand&&r.id!="me"?`<button class="btn sm sec" onclick="send({t:'lower',id:${r.id}})">İndir</button>`:""}</div>`).join("")
+$("#lcount").textContent=rows.length+" katılımcı"
+rows.forEach(r=>{const t=$("#t"+r.id);if(t)t.lastChild.textContent=r.lbl+(r.hand?" ✋":"")})
+}
+function handUi(){$("#bhand").classList.toggle("on",myHand)}
+function mediaUi(){
+const a=local&&local.getAudioTracks()[0],v=local&&local.getVideoTracks()[0]
+$("#bmic").classList.toggle("off",!a);$("#bcam").classList.toggle("off",!v)
+}
+async function setMedia(kind,on){
+if(!local)local=new MediaStream()
+let t=local.getTracks().find(x=>x.kind==kind)
+if(!on&&t){local.removeTrack(t);t.stop();t=null}
+if(on&&!t){try{t=(await navigator.mediaDevices.getUserMedia({[kind]:true})).getTracks()[0];local.addTrack(t)}catch(e){toast((kind=="audio"?"Mikrofon":"Kamera")+" açılamadı: "+e.message,"bad");t=null}}
+for(const p of Object.values(peers)){const tr=p.rc.getTransceivers().find(x=>x.receiver.track.kind==kind);if(tr)await tr.sender.replaceTrack(t).catch(()=>{})}
+tile("me","Ben",new MediaStream(local.getTracks()),true)
+mediaUi()
+}
+function toggle(k){const kind=k=="a"?"audio":"video";setMedia(kind,!(local&&local.getTracks().find(x=>x.kind==kind)))}
+async function attach(rc){
+for(const k of["audio","video"]){
+let tr=rc.getTransceivers().find(x=>x.receiver.track.kind==k)
+if(!tr)tr=rc.addTransceiver(k,{direction:"sendrecv"})
+tr.direction="sendrecv"
+await tr.sender.replaceTrack(local&&local.getTracks().find(x=>x.kind==k)||null).catch(()=>{})
+}
+}
+function fmtSecs(s){const m=Math.floor(s/60),x=s%60;return m?`${m} dk ${x} sn`:`${x} sn`}
+function showSummary(rows){
+$("#pick").innerHTML=`<div class="card pk"><h3>Ders süreleri</h3>${rows.length?`<table class="tbl"><tr><th>Öğrenci</th><th>Katılım süresi</th></tr>${rows.map(x=>`<tr><td>${esc(x.name)}</td><td>${fmtSecs(x.secs)}</td></tr>`).join("")}</table>`:`<p class="mu">Bu derse katılan öğrenci yok.</p>`}<button class="btn sec" onclick="$('#pick').hidden=true">Kapat</button></div>`
+$("#pick").hidden=false
+}
+function footUi(){
+$("#broll").hidden=!isHost
+$("#bpoll").hidden=!isHost
+$("#bhere").hidden=isHost||!rollOn
+$("#brec").hidden=!isHost
+}
+function recUi(v){
+$("#recind").hidden=!v
+if(v&&!isHost)toast("Bu ders kaydediliyor","ok",5000)
+}
+async function toggleRec(){
+if(!isHost)return
+if(recorder){recorder.stop();return}
+if(!confirm("Veli onayları alındı mı?\nKayıtta tahta ve senin sesin yer alır. Kayıt en fazla 3 saat saklanır ve yalnızca bu sınıfın üyeleri izleyebilir.\nKayıt başlatılsın mı?"))return
+const streams=[...bc.captureStream(15).getVideoTracks()]
+if(local)streams.push(...local.getAudioTracks())
+let rec
+try{rec=new MediaRecorder(new MediaStream(streams),{mimeType:"video/webm;codecs=vp8,opus"})}catch(e){return toast("Bu tarayıcı kaydı desteklemiyor","bad")}
+recChunks=[]
+rec.ondataavailable=e=>{if(e.data&&e.data.size)recChunks.push(e.data)}
+rec.onstop=uploadRec
+recorder=rec
+rec.start(10000)
+send({t:"rec",v:true})
+toast("Kayıt başladı","ok")
+}
+async function uploadRec(){
+const blob=new Blob(recChunks,{type:"video/webm"})
+recorder=null;recChunks=[]
+send({t:"rec",v:false})
+const fd=new FormData()
+fd.append("file",blob,"ders.webm")
+fd.append("consent",1)
+const t=toast("Kayıt kaydediliyor…","",0)
+try{await api(`/lessons/${lid}/recordings`,{method:"POST",body:fd});toast("Kayıt kaydedildi. 3 saat boyunca izlenebilir.","ok",6000)}catch(e){toast(e.message,"bad",7000)}
+t.remove()
+}
+function recCardHtml(recs){
+return recs.length?`<div class="card"><h3>🎬 Ders kayıtları</h3>${recs.map(r=>`<div class="row"><span class="grow">${esc(r.title)}</span><small class="mu">${fdt(r.expires)} tarihine kadar</small><button class="btn sm" onclick="playRec(${r.id})">İzle</button></div>`).join("")}</div>`:""
+}
+async function playRec(id){
+try{const r=await api(`/recordings/${id}/file`,{raw:true}),b=await r.blob()
+$("#pick").innerHTML=`<div class="card pk"><h3>Ders kaydı</h3><video controls autoplay style="width:100%" src="${URL.createObjectURL(b)}"></video><div class="row"><button class="btn sec" onclick="$('#pick').hidden=true">Kapat</button></div></div>`
+$("#pick").hidden=false
+}catch(e){toast(e.message,"bad")}
+}
+function toggleRoll(){
+if(!isHost)return
+send({t:"roll",v:!rollOn})
+}
+async function showAbsent(){
+let d
+try{d=await api(`/lessons/${lid}/roll`)}catch(e){return toast(e.message,"bad")}
+$("#pick").innerHTML=`<div class="card pk"><h3>Yoklama sonucu</h3><p class="mu">Katılan: ${d.present.length}</p>${d.present.map(x=>`<div class="li" style="cursor:default"><b class="grow">${esc(x.name)}</b>${x.status=="geç"?`<span class="chip">Geç</span>`:`<span class="chip">Var</span>`}${x.early?`<span class="chip dw">Erken çıktı</span>`:""}</div>`).join("")}<h3 class="sh2">Eksikler (${d.absent.length})</h3>${d.absent.map(x=>`<div class="li" style="cursor:default"><b class="grow">${esc(x.name)}</b><span class="chip dw">Yok</span></div>`).join("")||`<p class="mu">Eksik yok.</p>`}<div class="row"><button class="btn sec" onclick="$('#pick').hidden=true">Kapat</button></div></div>`
+$("#pick").hidden=false
+}
+function startPoll(){
+const q=prompt("Anket sorusu:")
+if(!q)return
+const o=prompt("Şıkları virgülle yaz (en az 2):","A,B,C,D")
+if(!o)return
+const opts=o.split(",").map(x=>x.trim()).filter(Boolean)
+if(opts.length<2)return toast("En az 2 şık gerek","bad")
+send({t:"poll",q,opts})
+$("#pick").innerHTML=`<div class="card pk"><h3>Anket açık</h3><p>${esc(q)}</p><p class="mu">Öğrenciler oy veriyor. Sonuçlar sohbette görünür.</p><div class="row"><button class="btn" onclick="send({t:'pollend'});$('#pick').hidden=true">Anketi bitir</button></div></div>`
+$("#pick").hidden=false
+}
+function showPoll(q,opts){
+$("#pick").innerHTML=`<div class="card pk"><h3>Anket</h3><p>${esc(q)}</p><div class="list">${opts.map((o,i)=>`<button class="btn sec" style="margin:6px 0;width:100%" onclick="vote(${i})">${esc(o)}</button>`).join("")}</div><button class="btn sec sm" onclick="$('#pick').hidden=true">Kapat</button></div>`
+$("#pick").hidden=false
+}
+function vote(i){send({t:"vote",i});$("#pick").hidden=true;toast("Oyun kaydedildi","ok")}
+function canWrite(){return isHost||writers.has(me.id)}
+function boardUi(){
+const can=canWrite()
+$("#btools").hidden=!can
+$("#bend").hidden=!isHost;$("#bbook").hidden=!isHost;$("#btop").hidden=!isHost
+bc.style.cursor=can?"crosshair":"default"
+}
+function setBTool(t){btool=t;$("#lpen").classList.toggle("on",t=="pen");$("#ler").classList.toggle("on",t=="eraser")}
+function bstroke(s){
+bx.lineCap=bx.lineJoin="round";bx.strokeStyle=s.c;bx.lineWidth=s.w
+bx.beginPath()
+s.p.forEach(([x,y],i)=>i?bx.lineTo(x,y):bx.moveTo(x,y))
+if(s.p.length==1)bx.lineTo(s.p[0][0]+.01,s.p[0][1])
+bx.stroke()
+}
+function bredraw(){bx.fillStyle="#fff";bx.fillRect(0,0,1280,720);ls.forEach(bstroke)}
+function bpt(e){
+const r=bc.getBoundingClientRect()
+return[Math.round((e.clientX-r.left)*1280/r.width),Math.round((e.clientY-r.top)*720/r.height)]
+}
+function flush(){
+lt=null
+if(lc&&lbuf.length){send({t:"draw",k:lc.k,c:lc.c,w:lc.w,p:lbuf});lbuf=[]}
+}
+bc.addEventListener("pointerdown",e=>{
+if(!canWrite())return
+bc.setPointerCapture(e.pointerId)
+const er=btool=="eraser",p=e.pressure>0?e.pressure:.5
+lc={k:myId+"-"+(++ln),c:er?"#ffffff":$("#bcol").value,w:+$("#bsz").value*(.5+p)*(er?4:1),p:[bpt(e)]}
+ls.push(lc);li[lc.k]=lc;lbuf=[lc.p[0]];bredraw();flush()
+})
+bc.addEventListener("pointermove",e=>{
+if(lc){const p=bpt(e);lc.p.push(p);lbuf.push(p);bredraw();if(!lt)lt=setTimeout(flush,30)}
+})
+const bstop=()=>{if(lc){flush();lc=null}}
+bc.addEventListener("pointerup",bstop)
+bc.addEventListener("pointercancel",bstop)
+function bundo(){
+if(canWrite()){const s=ls.pop();if(s)delete li[s.k];bredraw();send({t:"undo"})}
+}
+function bclear(){
+if(canWrite()&&confirm("Tahta temizlensin mi?")){ls=[];li={};bredraw();send({t:"clear"})}
+}
+async function endLive(){
+if(!confirm("Ders bitirilsin mi?"))return
+let r
+try{r=await api(`/lessons/${lid}/end`,{method:"POST"})}catch(e){return toast(e.message,"bad")}
+showSummary(r.summary)
+}
+
+/* ================= Yeni modüller: sınıflar, ayarlar, sınavlar ================= */
+let pageInfo=null,follow=false,exmT=0,ed=null,tk=null,ctab="stu",ccid=0,tkTimer=0,awayNow=false,rp=null
+const KIND={sinav:"Yazılı sınav",deneme:"Deneme testi"},GK={sozlu:"Sözlü",yazili:"Yazılı",deneme:"Deneme",diger:"Diğer"}
+const ST={upcoming:["Başlamadı","#f59e0b"],open:["Açık","#16a34a"],closed:["Kapandı","#64748b"]}
+const fdt=t=>t?new Date(t*1000).toLocaleString("tr-TR",{day:"2-digit",month:"2-digit",hour:"2-digit",minute:"2-digit"}):"-"
+const p2=n=>String(n).padStart(2,"0")
+const linp=d=>`${d.getFullYear()}-${p2(d.getMonth()+1)}-${p2(d.getDate())}T${p2(d.getHours())}:${p2(d.getMinutes())}`
+const dur=s=>s==null?"–":s>=3600?`${Math.floor(s/3600)}sa ${Math.floor(s%3600/60)}dk`:s>=60?`${Math.floor(s/60)}dk ${s%60}sn`:`${s}sn`
+const dlt=d=>d==null?"":d>0?`<span class="up">▲ ${+d.toFixed(1)}</span>`:d<0?`<span class="dw">▼ ${+(-d).toFixed(1)}</span>`:`<span class="mu">＝ 0</span>`
+const tren={up:"<span class='up'>▲ yükseliyor</span>",down:"<span class='dw'>▼ düşüyor</span>",flat:"<span class='mu'>＝ sabit</span>",na:"<span class='mu'>–</span>"}
+const schip=s=>`<span class="chip" style="background:${ST[s][1]}22;color:${ST[s][1]}">${ST[s][0]}</span>`
+function md(t){
+return esc(t).split("\n").map(l=>{
+l=l.replace(/\*\*(.+?)\*\*/g,"<b>$1</b>").replace(/_(.+?)_/g,"<i>$1</i>")
+if(/^#{1,4}\s/.test(l))return `<h3>${l.replace(/^#+\s*/,"")}</h3>`
+if(/^\s*[-*•]\s+/.test(l))return `<div style="padding-left:16px;text-indent:-12px">• ${l.replace(/^\s*[-*•]\s+/,"")}</div>`
+return l.trim()?`<p>${l}</p>`:""
+}).join("")
+}
+const navItems=()=>{
+if(me.role=="guest")return[["live","🎥","Canlı ders"],["exm","🧪","Sınavlar"]]
+if(me.role=="parent")return[["par","👨‍👩‍👧","Çocuklarım"],["set","⚙️","Ayarlar"]]
+return[["home","🏠","Ana sayfa"],["lib","📚","Kitaplık"],["asg","📝","Ödevler"],["ann","📢","Duyurular"],...(me.role=="teacher"?[]:[["prog","📈","İlerlemem"]]),...(me.role=="teacher"&&me.admin?[["adm","🛡","Yönetim"]]:[]),["cls","🏫",me.role=="teacher"?"Sınıflar":"Sınıfım"],["exm","🧪","Sınavlar"],["live","🎥","Canlı ders"],["set","⚙️","Ayarlar"]]
+}
+
+/* ---------- misafir girişi ---------- */
+function guestView(){
+$("#app").innerHTML=`<div class="auth"><div class="hero"><div class="logo big"><span>📖</span><b>Dijital Okul</b></div><h1>Hesap açmadan katıl.</h1><p>Öğretmenin verdiği ders ya da sınav kodunu ve adını yaz.</p></div>
+<form id="af" class="panel" onsubmit="guestJoin();return false"><h2>Misafir girişi</h2>
+<label>Adın<input name="name" required maxlength="40"></label>
+<label>Kod<input name="code" class="code" maxlength="6" required placeholder="ABC123" style="width:100%"></label>
+<div class="err">${esc(err)}</div><button class="btn lg">Katıl</button>
+<p class="sw2"><a onclick="setMode('login')">← Girişe dön</a></p></form></div>`
+}
+async function guestJoin(){
+const f=Object.fromEntries(new FormData($("#af")))
+try{
+const r=await api("/guest",{method:"POST",body:f})
+token=r.token;localStorage.t=token;me=r.user;err=""
+view=r.exam?"exm":"live"
+await render()
+if(r.lesson)joinLive(r.lesson.id,r.lesson.title)
+if(r.exam)examStart(r.exam.id)
+}catch(e){err=e.message;authView()}
+}
+
+/* ---------- canlı ders eklentileri ---------- */
+function lessonForm(cl){
+return `<p class="mu">Başlık gir. Sınıf seçersen sınıf öğrencileri koda gerek kalmadan katılır; ders sayfaları o sınıfa işlenir.</p><div class="form"><input id="lt" placeholder="Ders başlığı" onkeydown="if(event.key=='Enter')startLive()"><div class="row"><select id="lcls" class="grow"><option value="">Sınıf yok (sadece kodla)</option>${cl.map(c=>`<option value="${c.id}">${esc(c.name)}</option>`).join("")}</select><label class="chk"><input type="checkbox" id="lgst"> Misafir kabul et</label></div><button class="btn" onclick="startLive()">Başlat</button></div>`
+}
+function activeList(a){
+return a.length?`<h3 class="sh2">Sınıfının aktif dersleri</h3>${a.map(l=>`<div class="card row"><div class="grow"><b>${esc(l.title)}</b><small>${esc(l.teacher)}${l.cname?" · "+esc(l.cname):""}</small></div><button class="btn" data-t="${esc(l.title)}" onclick="joinLive(${l.id},this.dataset.t)">Katıl</button></div>`).join("")}`:""
+}
+async function pickBook(){
+let bs=[]
+try{bs=await api("/books");cache(bs)}catch(e){return toast(e.message,"bad")}
+const mine=bs.filter(b=>b.owner_id==me.id||b.shared)
+$("#pick").innerHTML=`<div class="card pk"><h3>Hangi kitabı açıyorsun?</h3><p class="mu">Açtığın sayfalar ders kaydına işlenir. Öğrenciler üstteki 📘 düğmesiyle sayfayı kendi ekranında açabilir.</p><div class="list">${mine.map(b=>`<div class="li" onclick="liveBook(${b.id})"><span>📘</span><div class="grow"><b>${esc(b.title)}</b><small>${b.pages} sayfa</small></div></div>`).join("")||"<p class='mu'>Kitaplığında kitap yok.</p>"}</div><button class="btn sec" onclick="$('#pick').hidden=true">Vazgeç</button></div>`
+$("#pick").hidden=false
+}
+function liveBook(id){$("#pick").hidden=true;openBook(id)}
+async function setTopic(){
+const t=prompt("Bu dersin konusu / işlenen başlık (aylık sınav hazırlarken kullanılır):","")
+if(t===null)return
+try{await api(`/lessons/${lid}/topic`,{method:"POST",body:{topic:t}});toast("Konu notu kaydedildi","ok")}catch(e){toast(e.message,"bad")}
+}
+function showPage(p,quiet){
+pageInfo=p;titles[p.book_id]=p.title
+const b=$("#lpg");b.hidden=false;b.textContent=`📘 ${p.title} · s.${p.page}`
+if(!isHost)openPage(p)
+}
+function openPage(p){
+if(!$("#reader").hidden&&bid==p.book_id&&pdf)goTo(p.page)
+else openBook(p.book_id,null,p.page)
+}
+function followPage(){if(pageInfo){follow=!isHost;openPage(pageInfo)}}
+
+/* ---------- ayarlar ---------- */
+async function changePw(){
+const o=$("#pwo").value,n=$("#pwn").value
+try{const r=await api("/password",{method:"POST",body:{old:o,new:n}});token=r.token;localStorage.t=token;toast("Şifren değişti","ok");$("#pwo").value="";$("#pwn").value=""}catch(e){toast(e.message,"bad")}
+}
+async function backupDl(){
+const t=toast("Yedek hazırlanıyor…","",0)
+try{const r=await api("/backup",{raw:true}),b=await r.blob(),a=document.createElement("a");a.href=URL.createObjectURL(b);a.download="dijital-okul-yedek-"+new Date().toISOString().slice(0,10)+".zip";a.click();toast("Yedek indi","ok")}catch(e){toast(e.message,"bad")}
+t.remove()
+}
+async function setView(){
+const s=await api("/settings"),t=me.role=="teacher"
+$("#app").innerHTML=`<div class="hd"><h1>Ayarlar</h1></div>
+<div class="card"><h3>♿ Görünüm</h3><div class="row"><label>Yazı boyutu <select id="fsz" onchange="setLook()"><option value="100">Normal</option><option value="115">Büyük</option><option value="130">Çok büyük</option></select></label><label class="chk"><input type="checkbox" id="hc" onchange="setLook()"> Yüksek kontrast</label></div></div>
+<div class="card"><h3>🔔 Bildirimler</h3><p class="mu">Yeni duyuru ve açılan sınavlar için tarayıcı bildirimi al.</p><button class="btn sm" onclick="enableNotify()">Bildirimleri aç</button></div>
+<div class="card"><h3>🔑 Şifre değiştir</h3><div class="form"><input id="pwo" type="password" placeholder="Mevcut şifre"><input id="pwn" type="password" placeholder="Yeni şifre (en az 6 karakter)"><button class="btn sm" onclick="changePw()">Şifreyi değiştir</button></div></div>
+${t?`<div class="card"><h3>💾 Yedek</h3><p class="mu">Kitaplar, notlar, sınavlar ve kayıtların tek dosyada iner. Düzenli olarak yedek al.</p><button class="btn sm" onclick="backupDl()">Yedeği indir</button></div>`:""}
+<div class="card"><h3>🤖 Yapay zeka (soru üretme ve öğretmen rehberi)</h3>
+<p class="mu">Kendi API anahtarını gir. Anahtar yalnızca bu sunucudaki veritabanında tutulur, ekrana geri gönderilmez.</p>
+${!t&&s.shared_available?`<p><span class="chip">Öğretmeninin paylaştığı anahtarı kullanabilirsin (günde 10 istek)</span></p>`:""}
+<div class="form">
+<label class="fl">Sağlayıcı<select id="sp"><option value="gemini">Google Gemini</option><option value="openrouter">OpenRouter (ücretsiz modeller)</option></select></label>
+<label class="fl">Gemini API anahtarı ${s.gemini_set?`<small>Kayıtlı (${esc(s.gemini_hint)}). Değiştirmek için yenisini yaz.</small>`:`<small>Google AI Studio'dan ücretsiz alınır</small>`}<input id="sgk" type="password" autocomplete="off" placeholder="${s.gemini_set?"••••••••":"AIza…"}"></label>
+<label class="fl">Gemini modeli<div class="row"><input id="sgm" class="grow" list="gml" value="${esc(s.gemini_model)}"><button class="btn sec sm" type="button" onclick="loadModels('gemini')">Listele</button></div><datalist id="gml"></datalist></label>
+<label class="fl">OpenRouter API anahtarı ${s.or_set?`<small>Kayıtlı (${esc(s.or_hint)}). Değiştirmek için yenisini yaz.</small>`:`<small>openrouter.ai üzerinden alınır</small>`}<input id="sok" type="password" autocomplete="off" placeholder="${s.or_set?"••••••••":"sk-or-…"}"></label>
+<label class="fl">OpenRouter modeli (ücretsiz olanlar “:free” ile biter)<div class="row"><input id="som" class="grow" list="oml" value="${esc(s.or_model)}"><button class="btn sec sm" type="button" onclick="loadModels('openrouter')">Ücretsizleri listele</button></div><datalist id="oml"></datalist></label>
+${t?`<label class="chk"><input type="checkbox" id="ssh" ${s.share?"checked":""}> Sınıflarımdaki öğrenciler benim anahtarımı kullanabilsin (öğrenci başına günde 10 istek)</label>`:""}
+<div class="row"><button class="btn" onclick="saveSet()">Kaydet</button><button class="btn sec" onclick="testAI()">Bağlantıyı test et</button>${s.gemini_set?`<button class="btn sec" onclick="saveSet({clear_gemini:true})">Gemini anahtarını sil</button>`:""}${s.or_set?`<button class="btn sec" onclick="saveSet({clear_or:true})">OpenRouter anahtarını sil</button>`:""}</div>
+<div id="sres" class="mu"></div></div></div>
+<div class="card"><h3>Görünüm</h3><button class="btn sec" onclick="theme()">🌓 Açık / koyu tema</button></div>`
+$("#sp").value=s.provider
+}
+async function saveSet(extra={}){
+const b={provider:$("#sp").value,gemini_key:$("#sgk").value||null,gemini_model:$("#sgm").value,or_key:$("#sok").value||null,or_model:$("#som").value,share:$("#ssh")&&$("#ssh").checked?1:0,...extra}
+try{await api("/settings",{method:"PUT",body:b});toast("Ayarlar kaydedildi","ok");setView()}catch(e){toast(e.message,"bad")}
+}
+async function testAI(){
+$("#sres").textContent="Test ediliyor… (önce Kaydet'e bastığından emin ol)"
+try{const r=await api("/ai/test",{method:"POST"});$("#sres")&&($("#sres").textContent="✓ Çalışıyor. Yanıt: "+r.reply)}catch(e){$("#sres")&&($("#sres").textContent="✗ "+e.message)}
+}
+async function loadModels(p){
+try{
+const r=await api("/ai/models?provider="+p)
+$(p=="gemini"?"#gml":"#oml").innerHTML=r.map(m=>`<option value="${esc(m)}">`).join("")
+toast(r.length+" model bulundu. Kutuya tıklayıp seç.","ok")
+}catch(e){toast(e.message,"bad")}
+}
+
+/* ---------- sınıflar ---------- */
+function progressHtml(pg){
+const g=pg.grades,r=pg.results
+let h=""
+if(g.length)h+=`<h3 class="sh2">Notlarım</h3><div class="card tw"><table class="tbl"><tr><th>Tür</th><th>Not</th><th>Açıklama</th><th>Sınıf</th><th>Tarih</th></tr>${g.map(x=>`<tr><td>${GK[x.kind]||x.kind}</td><td><b>${x.score}</b></td><td>${esc(x.note)}</td><td>${esc(x.cname||"")}</td><td>${fdt(x.at)}</td></tr>`).join("")}</table></div>`
+if(r.length)h+=`<h3 class="sh2">Sınav geçmişim</h3><div class="card">${r.slice().reverse().map(x=>`<div class="li" onclick="examResult(${x.aid})"><div class="grow"><b>${esc(x.title)}</b> <span class="tag">${x.scope=="self"?"Kendi testim":KIND[x.kind]}</span><small>${fdt(x.finished)} · ${x.correct} doğru · ${x.wrong} yanlış · ${x.blank} boş${x.rank?` · ${x.rank}/${x.n}. sıra`:""}</small><div class="bar" style="margin-top:6px"><i style="width:${x.score}%"></i></div></div><div style="text-align:right"><b style="font-size:20px">${x.score}</b><br>${x.prev?dlt(x.score-x.prev.score):""}</div></div>`).join("")}</div>`
+return h
+}
+async function clsView(){
+ccid=0
+const cl=await api("/classes"),cmp=me.role=="teacher"?await api("/compare"):[]
+if(me.role=="teacher"){
+$("#app").innerHTML=`<div class="hd"><h1>Sınıflar</h1></div><div class="card"><h3>Yeni sınıf</h3><div class="row"><input id="cn" class="grow" placeholder="Örn. 10-A" maxlength="30" onkeydown="if(event.key=='Enter')addClass()"><button class="btn" onclick="addClass()">Oluştur</button></div></div>
+${cmp.length>1?`<h3 class="sh2">Sınıflar arası karşılaştırma</h3><div class="card tw"><table class="tbl"><tr><th>Sınıf</th><th>Öğrenci</th><th>Sınav ort.</th><th>Derse katılım</th><th>En zayıf konu</th></tr>${cmp.map(x=>`<tr><td><b>${esc(x.name)}</b></td><td>${x.members}</td><td>${x.avg??"–"}</td><td>${x.part==null?"–":"%"+Math.round(x.part*100)}</td><td>${x.weak?`${esc(x.weak.topic)} <small>(%${x.weak.rate})</small>`:"–"}</td></tr>`).join("")}</table></div>`:""}
+<div class="books" style="grid-template-columns:repeat(auto-fill,minmax(240px,1fr))">${cl.map(c=>`<div class="card" style="cursor:pointer;margin:0" onclick="clsOpen(${c.id})"><h3>🏫 ${esc(c.name)}</h3><p class="mu">${c.members} öğrenci${c.pending?` · ${c.pending} bekleyen`:""}</p><span class="chip">Kod: ${c.code}</span></div>`).join("")}</div>${cl.length?"":`<div class="empty">🏫<p>Henüz sınıf yok. Yukarıdan 10-A, 10-B gibi oluştur.</p></div>`}`
+}else{
+const pg=await api("/me/progress")
+$("#app").innerHTML=`<div class="hd"><h1>Sınıfım</h1></div>
+<div class="card"><h3>Sınıf koduyla katıl</h3><p class="mu">Öğretmenin sınıf kodunu verdiyse yaz. Seni e-postanla eklediyse zaten sınıfındasın.</p><div class="row"><input id="ccode" class="code" maxlength="6" placeholder="ABC123" onkeydown="if(event.key=='Enter')joinClass()"><button class="btn" onclick="joinClass()">Katıl</button></div></div>
+${cl.map(c=>`<div class="card row"><span style="font-size:24px">🏫</span><div class="grow"><b>${esc(c.name)}</b><small>${esc(c.teacher)}</small></div></div>`).join("")}
+${progressHtml(pg)}`
+}
+}
+async function addClass(){
+const n=$("#cn").value.trim()
+if(!n)return toast("Sınıf adı yaz","bad")
+try{const r=await api("/classes",{method:"POST",body:{name:n}});clsOpen(r.id)}catch(e){toast(e.message,"bad")}
+}
+async function joinClass(){
+try{const r=await api("/classes/join",{method:"POST",body:{code:$("#ccode").value.trim()}});toast(r.name+" sınıfına katıldın","ok");clsView()}catch(e){toast(e.message,"bad")}
+}
+function clsOpen(id,tab){ccid=id;ctab=tab||"stu";view="cls";nav();clsDetail()}
+async function clsDetail(){
+const d=await api("/classes/"+ccid)
+const tabs=[["stu","👥 Öğrenciler"],["grd","📒 Notlar"],["ana","📈 Analiz ve rehber"],["cov","📖 İşlenenler"],["dia","📔 Ders günlüğü"]]
+$("#app").innerHTML=`<div class="hd"><div class="row"><button class="btn sec sm" onclick="go('cls')">← Sınıflar</button><h1>🏫 ${esc(d.name)}</h1><button class="chip big" title="Öğrencilerin katılım kodu (kopyala)" onclick="copy('${d.code}')">${d.code}</button></div><div class="row"><button class="btn" onclick="classLive()">🎥 Ders başlat</button><button class="btn sec" onclick="newExam(${d.id})">🧪 Sınav hazırla</button><button class="btn dn sm" onclick="delClass()">Sınıfı sil</button></div></div>
+<div class="tabs2">${tabs.map(([k,l])=>`<button class="${ctab==k?"on":""}" onclick="ctab='${k}';clsDetail()">${l}</button>`).join("")}</div><div id="ctb"></div>`
+await({stu:tabStu,grd:tabGrd,ana:tabAna,cov:tabCov,dia:tabDia}[ctab])(d)
+}
+async function classLive(){
+const t=prompt("Ders başlığı:")
+if(!t||!t.trim())return
+try{const r=await api("/lessons",{method:"POST",body:{title:t.trim(),class_id:ccid,guests:0}});joinLive(r.id,t.trim(),r.code)}catch(e){toast(e.message,"bad")}
+}
+async function delClass(){
+if(!confirm("Sınıf silinsin mi? Öğrenci listesi ve bu sınıfa girilen notlar silinir (sınavlar ve dersler kalır)."))return
+try{await api("/classes/"+ccid,{method:"DELETE"});go("cls")}catch(e){toast(e.message,"bad")}
+}
+let stuNames={},pvStu=null
+function tabStu(d){
+stuNames=Object.fromEntries(d.members.map(m=>[m.id,m.name]))
+$("#ctb").innerHTML=`<div class="card"><h3>Öğrenci ekle</h3><p class="mu">Her satıra bir öğrenci: <b>Ad Soyad, e-posta</b>. Henüz hesabı olmayanlar kayıt olduğunda otomatik bu sınıfa girer; istediğin zaman yeni öğrenci ekleyebilirsin. Öğrenciler ayrıca <b>${d.code}</b> koduyla kendileri de katılabilir.</p><textarea id="stx" style="width:100%" placeholder="Ali Yılmaz, ali@ornek.com&#10;Ayşe Kaya, ayse@ornek.com"></textarea><div class="row" style="margin-top:8px"><button class="btn" onclick="addStu()">Ekle</button><label class="btn sec sm" style="cursor:pointer">CSV yükle<input type="file" accept=".csv,.txt" hidden onchange="csvStu(this)"></label></div></div>
+<h3 class="sh2">Sınıf listesi (${d.members.length})</h3><div class="card"><div class="list">${d.members.map(m=>`<div class="li" style="cursor:default;opacity:${m.active?1:.55}"><span class="av sm">${esc((m.name[0]||"?").toUpperCase())}</span><div class="grow"><b>${esc(m.name)}</b> <span class="chip">${m.active?"Aktif":"Pasif"}</span><small>${esc(m.email)} · ${m.gavg!=null?`Not ort. ${m.gavg} (${m.gn} not)`:"Henüz not yok"}</small></div><button class="btn sm sec" onclick="stuProfile(${m.id})">📊 Analiz</button><button class="btn sm sec" onclick="privExam(${m.id})">🧪 Özel sınav</button><button class="btn sm sec" onclick="setActive(${m.id},${m.active?0:1})">${m.active?"Pasife al":"Aktife al"}</button><button class="btn sec sm" onclick="rmStu(${m.id})">Çıkar</button></div>`).join("")||`<p class="mu">Henüz öğrenci yok.</p>`}</div></div>
+${d.pending.length?`<h3 class="sh2">Hesap açmasını bekleyenler (${d.pending.length})</h3><div class="card"><div class="list">${d.pending.map(m=>`<div class="li" style="cursor:default"><span class="av sm">⏳</span><div class="grow"><b>${esc(m.name)}</b><small>${esc(m.email)}</small></div><button class="btn sec sm" onclick="rmRoster(${m.id})">Kaldır</button></div>`).join("")}</div></div>`:""}`
+}
+async function setActive(uid,v){
+try{await api(`/classes/${ccid}/members/${uid}/active`,{method:"POST",body:{active:v}});clsDetail()}catch(e){toast(e.message,"bad")}
+}
+function privExam(uid){pvStu={uid,name:stuNames[uid]||""};newExam(ccid)}
+function profileHtml(p,name,back){
+const trT={up:"Yükselişte ↑",down:"Düşüşte ↓",flat:"Sabit →",na:"Yetersiz veri"}
+const bar=r=>`<div class="row" style="margin:5px 0"><span style="width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(r.topic)}</span><div class="bar grow"><i style="width:${r.rate}%"></i></div><b style="width:90px;text-align:right">%${r.rate} <small>(${r.ok}/${r.n})</small></b></div>`
+return `<div class="row">${back||""}<h3 class="grow">${esc(name)} · analiz</h3><button class="btn sec sm" onclick="printReport()">🖨 Yazdır / PDF</button></div>
+<div class="stats"><div class="stat"><span>📈</span><b>${trT[p.trend]}</b><small>Eğilim</small></div><div class="stat"><span>🎥</span><b>${p.part_rate==null?"–":"%"+Math.round(p.part_rate*100)}</b><small>Derse katılım (${p.attended}/${p.lessons})</small></div><div class="stat"><span>🧪</span><b>${p.exams.length}</b><small>Çözülen sınav</small></div></div>
+<div class="card"><h3>💪 Güçlü alanlar</h3>${p.strong.map(bar).join("")||`<p class="mu">Henüz yeterli veri yok (konu başına en az 2 soru, %75 üzeri gerekir).</p>`}</div>
+<div class="card"><h3>⚠ Gelişime açık alanlar</h3>${p.weak.map(bar).join("")||`<p class="mu">Belirgin zayıf alan yok.</p>`}</div>
+<div class="card"><h3>Tüm konular</h3>${p.topics.map(bar).join("")||`<p class="mu">Konu etiketli soru yok.</p>`}</div>
+<div class="card"><h3>Sınav sonuçları</h3>${p.exams.map(e=>`<div class="row"><span class="grow">${esc(e.title)}</span><b>${e.score}</b></div>`).join("")||`<p class="mu">Henüz kapanmış sınav yok.</p>`}</div>
+<div class="card"><h3>📒 Notlar</h3>${p.grades.map(g=>`<div class="row"><span class="grow">${esc(g.kind)}${g.note?" · "+esc(g.note):""}</span><b>${g.score}</b></div>`).join("")||`<p class="mu">Not yok.</p>`}</div>`
+}
+async function stuProfile(uid){
+$("#ctb").innerHTML=`<p class="mu">Analiz hazırlanıyor…</p>`
+let p
+try{p=await api(`/classes/${ccid}/students/${uid}/profile`)}catch(e){return toast(e.message,"bad")}
+$("#ctb").innerHTML=profileHtml(p,stuNames[uid]||"",`<button class="btn sec sm" onclick="clsDetail()">← Listeye dön</button>`)
+}
+function printReport(){
+const src=$("#ctb")&&$("#ctb").innerHTML.trim()?$("#ctb"):$("#app")
+const w=window.open("","_blank")
+if(!w)return toast("Açılır pencereye izin ver","bad")
+w.document.write(`<html><head><meta charset="utf-8"><title>Öğrenci raporu</title></head><body style="font-family:sans-serif;padding:24px">${src.innerHTML}</body></html>`)
+w.document.close();w.print()
+}
+let kidName={}
+async function auditCard(){
+let rows=[]
+try{rows=await api("/admin/audit")}catch(e){return ""}
+return `<div class="card"><h3>📋 Denetim kaydı</h3><div class="card tw"><table class="tbl"><tr><th>Zaman</th><th>Kişi</th><th>İşlem</th><th>Ayrıntı</th></tr>${rows.map(r=>`<tr><td>${fdt(r.at)}</td><td>${esc(r.user_name)}</td><td>${esc(r.action)}</td><td>${esc(r.detail||"")}</td></tr>`).join("")||`<tr><td colspan="4" class="mu">Kayıt yok</td></tr>`}</table></div></div>`
+}
+async function admView(){
+view="adm"
+let d
+try{d=await api("/admin/overview")}catch(e){$("#app").innerHTML=`<div class="err">${esc(e.message)}</div>`;return}
+const t=d.totals
+$("#app").innerHTML=`<div class="hd"><h1>Yönetim</h1></div>
+<div class="stats"><div class="stat"><span>👩‍🏫</span><b>${t.teachers}</b><small>Öğretmen</small></div><div class="stat"><span>👨‍🎓</span><b>${t.students}</b><small>Öğrenci</small></div><div class="stat"><span>🏫</span><b>${t.classes}</b><small>Sınıf</small></div><div class="stat"><span>📚</span><b>${t.books}</b><small>Kitap</small></div><div class="stat"><span>🧪</span><b>${t.exams}</b><small>Sınav</small></div></div>
+<div class="card"><h3>Öğretmenler</h3><div class="card tw"><table class="tbl"><tr><th>Ad</th><th>E-posta</th><th>Sınıf</th><th>Öğrenci</th><th>Sınav</th><th>Kitap</th><th>Yetki</th></tr>${d.teachers.map(x=>`<tr><td><b>${esc(x.name)}</b></td><td>${esc(x.email)}</td><td>${x.classes}</td><td>${x.students}</td><td>${x.exams}</td><td>${x.books}</td><td>${x.is_admin?"<span class=\"chip\">Yönetici</span>":""}</td></tr>`).join("")}</table></div>
+<div class="row" style="margin-top:12px"><input id="pe" type="email" placeholder="Yönetici yapılacak öğretmenin e-postası" class="grow"><button class="btn sm" onclick="promote()">Yönetici yap</button></div></div>
+<div class="card"><h3>Sınıflar</h3><div class="card tw"><table class="tbl"><tr><th>Sınıf</th><th>Öğretmen</th><th>Öğrenci</th></tr>${d.classes.map(c=>`<tr><td>${esc(c.name)}</td><td>${esc(c.teacher)}</td><td>${c.students}</td></tr>`).join("")}</table></div></div>
+<div class="card"><h3>💾 Yedekler</h3><p class="mu">Toplam ${d.backup_count} yedek. Son ${d.backups.length} tanesi:</p>${d.backups.map(x=>`<div class="mu">${esc(x)}</div>`).join("")||`<p class="mu">Henüz yedek alınmadı.</p>`}</div>`
+$("#app").insertAdjacentHTML("beforeend",await conflictCard())
+$("#app").insertAdjacentHTML("beforeend",await auditCard())
+}
+async function promote(){
+const email=$("#pe").value.trim()
+if(!email)return toast("E-posta yaz","bad")
+try{await api("/admin/promote",{method:"POST",body:{email}});toast("Yönetici yapıldı","ok");admView()}catch(e){toast(e.message,"bad")}
+}
+function setLook(){
+const f=$("#fsz")?$("#fsz").value:"100",hc=$("#hc")?$("#hc").checked:false
+localStorage.look=JSON.stringify({f,h:hc})
+applyLook()
+}
+function applyLook(){
+try{const lk=JSON.parse(localStorage.look||"null")||{f:"100",h:false}
+document.documentElement.style.fontSize=lk.f+"%"
+document.body.classList.toggle("hc",!!lk.h)
+const fs=$("#fsz"),hc=$("#hc");if(fs)fs.value=lk.f;if(hc)hc.checked=!!lk.h
+}catch{}
+}
+applyLook()
+let nlast=+localStorage.nlast||Date.now()/1000
+function enableNotify(){
+if(!("Notification" in window))return toast("Bu tarayıcı bildirimleri desteklemiyor","bad")
+Notification.requestPermission().then(p=>toast(p=="granted"?"Bildirimler açık":"Bildirim izni verilmedi",p=="granted"?"ok":"bad"))
+}
+setInterval(async()=>{
+if(!token||!me||me.role=="guest")return
+let ev
+try{ev=await api("/notify?since="+nlast)}catch{return}
+ev.forEach(e=>{toast(e.title,"ok",6000);if("Notification" in window&&Notification.permission=="granted")new Notification("Dijital Okul",{body:e.title})})
+nlast=Date.now()/1000;localStorage.nlast=nlast
+},30000)
+async function parView(){
+view="par"
+const kids=await api("/parent/children")
+kids.forEach(k=>kidName[k.id]=k.name)
+$("#app").innerHTML=`<div class="hd"><h1>Çocuklarım</h1></div>${kids.map(k=>`<div class="card row"><b class="grow">${esc(k.name)}</b><button class="btn sm" onclick="childView(${k.id})">Görüntüle</button></div>`).join("")||`<div class="empty">👨‍👩‍👧<p>Henüz bağlı çocuk yok. Öğrencinden veli kodunu alıp kayıt olurken gir.</p></div>`}`
+}
+async function childView(sid){
+let p
+try{p=await api(`/parent/children/${sid}/progress`)}catch(e){return toast(e.message,"bad")}
+$("#app").innerHTML=profileHtml(p,kidName[sid]||"",`<button class="btn sec sm" onclick="parView()">← Çocuklarım</button>`)
+}
+async function parCode(){
+try{const r=await api("/me/parent-code",{method:"POST"});$("#pcode").innerHTML=`<p>Veli kodu: <b class="chip big">${r.code}</b> <small class="mu">${r.days} gün geçerli, tek kullanımlık</small></p>`}catch(e){toast(e.message,"bad")}
+}
+function studyPlan(p){
+if(!p.weak.length)return `<div class="card"><h3>📅 Çalışma planı</h3><p class="mu">Belirgin zayıf konu yok. Düzenli tekrar ile mevcut seviyeni koru.</p></div>`
+return `<div class="card"><h3>📅 Haftalık çalışma planı</h3>${p.weak.map((w,i)=>`<div style="margin:8px 0"><b>${i+1}. ${esc(w.topic)}</b> <small class="mu">(%${w.rate})</small><p class="mu">3 gün, her gün 20 dk: konu özetini oku, 5 soru çöz, yanlışlarının açıklamasını incele.</p></div>`).join("")}</div>`
+}
+async function goalCard(p){
+let g={target:null}
+try{g=await api("/me/goal")}catch{}
+const avg=p.exams.length?Math.round(p.exams.reduce((s,e)=>s+e.score,0)/p.exams.length*10)/10:null
+const kalan=g.target!=null&&avg!=null?Math.max(0,Math.round((g.target-avg)*10)/10):null
+return `<div class="card"><h3>🎯 Hedefim</h3><p>${g.target!=null?`Hedef: <b>${g.target}</b> · Ortalamam: <b>${avg??"–"}</b>${kalan!=null?` · Hedefe kalan: ${kalan>0?kalan+" puan":"ulaştın ✓"}`:""}`:`<span class="mu">Henüz hedef yok.</span>`}</p><div class="row"><input id="goalv" type="number" min="0" max="100" placeholder="Sınav ortalaması hedefi" style="width:200px"><button class="btn sm" onclick="saveGoal()">Kaydet</button></div></div>`
+}
+async function saveGoal(){
+const v=+$("#goalv").value
+if(!(v>=0&&v<=100))return toast("0 ile 100 arasında bir hedef yaz","bad")
+try{await api("/me/goal",{method:"PUT",body:{target:v}});toast("Hedef kaydedildi","ok");progView()}catch(e){toast(e.message,"bad")}
+}
+async function pairsView(eid){
+let d
+try{d=await api(`/exams/${eid}/pairs`)}catch(e){return toast(e.message,"bad")}
+$("#pick").innerHTML=`<div class="card pk"><h3>Cevap örüntüsü: ${esc(d.title)}</h3><p class="mu">Bu liste kopya kanıtı değildir. Yalnızca hangi öğrenci çiftlerinin aynı yanlış şıkları seçtiğini gösterir ve inceleme önceliği için kullanılmalıdır.</p>${d.pairs.map(x=>`<div class="row" style="margin:6px 0"><span class="grow">${esc(x.a)} · ${esc(x.b)}</span><b>${x.same} ortak yanlış</b><small class="mu">%${Math.round(x.ratio*100)}</small></div>`).join("")||`<p class="mu">Dikkat çeken bir örüntü yok.</p>`}<div class="row"><button class="btn sec" onclick="$('#pick').hidden=true">Kapat</button></div></div>`
+$("#pick").hidden=false
+}
+function planCard(){
+const t=[["Konu tekrarı (40 dk)","Önceki dersin kısa özeti (5 dk), 5 soruluk hızlı tekrar (10 dk), yanlışların açıklaması (15 dk), kapanış soru-cevap (10 dk)."],["Sınav sonrası düzeltme (40 dk)","Sınav sonucu ve en çok yanlış yapılan soru (10 dk), doğru çözüm birlikte (20 dk), öğrenciye benzer 3 soru (10 dk)."],["Okuma etkinliği (40 dk)","Kitap sayfasını birlikte okuma (15 dk), anahtar kavramları tahtaya yazma (15 dk), öğrenci özeti (10 dk)."]]
+return `<div class="card"><h3>📝 Ders planı şablonları</h3>${t.map(([a,b])=>`<div style="margin:8px 0"><b>${a}</b><p class="mu">${b}</p></div>`).join("")}</div>`
+}
+async function conflictCard(){
+let rows=[]
+try{rows=await api("/admin/conflicts")}catch(e){return ""}
+return `<div class="card"><h3>⚠ Sınav çakışmaları</h3>${rows.map(x=>`<p>${esc(x)}</p>`).join("")||`<p class="mu">Çakışma yok.</p>`}</div>`
+}
+async function progView(){
+let p
+try{p=await api("/me/progress")}catch(e){$("#app").innerHTML=`<div class="empty">📈<p>${esc(e.message)}</p></div>`;return}
+const gc=await goalCard(p)
+$("#app").innerHTML=gc+studyPlan(p)+`<div class="card"><h3>👨‍👩‍👧 Veli bağlantısı</h3><p class="mu">Velin bu kodla kayıt olursa çocuğunun ilerlemesini görebilir. Kod 7 gün geçerli ve tek kullanımlık.</p><button class="btn sm" onclick="parCode()">Veli kodu üret</button><div id="pcode"></div></div>`+profileHtml(p,me.name,"")
+}
+async function lessonSummary(id){
+let s
+try{s=await api(`/lessons/${id}/summary`)}catch(e){return toast(e.message,"bad")}
+$("#pick").innerHTML=`<div class="card pk"><h3>${esc(s.title)}</h3><p class="mu">${s.topic?"Konu: "+esc(s.topic):""}</p><div class="card tw"><table class="tbl"><tr><th>Öğrenci</th><th>Katılım</th><th>Süre</th><th>El</th><th>Mesaj</th></tr>${s.attendance.map(a=>`<tr><td>${esc(a.name)}</td><td>${a.joins}</td><td>${Math.round(a.secs/60)} dk</td><td>${a.hands}</td><td>${a.chats}</td></tr>`).join("")||`<tr><td colspan="5" class="mu">Katılan yok</td></tr>`}</table></div><h3 class="sh2">Açılan sayfalar</h3><p class="mu">${s.pages.map(p=>esc(p.title)+" s."+p.page).join(", ")||"Yok"}</p><div class="row"><button class="btn sec" onclick="$('#pick').hidden=true">Kapat</button></div></div>`
+$("#pick").hidden=false
+}
+async function tabDia(){
+const rows=await api(`/classes/${ccid}/diary`)
+$("#ctb").innerHTML=planCard()+rows.map(l=>`<div class="card"><div class="row"><b class="grow">${esc(l.title)}</b><span class="chip">${l.active?"Açık":"Kapandı"}</span><button class="btn sec sm" onclick="lessonSummary(${l.id})">📋 Özet</button></div><small>${fdt(l.first_at||l.ended_at)} · ${l.attendees} öğrenci katıldı${l.topic?" · Konu: "+esc(l.topic):""}</small>${l.pages.length?`<p class="mu">Açılan sayfalar: ${l.pages.map(p=>esc(p.title)+" s."+p.page).join(", ")}</p>`:""}</div>`).join("")||`<div class="empty">📔<p>Henüz ders yok.</p></div>`
+}
+async function missing(aid){
+let rows
+try{rows=await api(`/assignments/${aid}/missing`)}catch(e){return toast(e.message,"bad")}
+$("#pick").innerHTML=`<div class="card pk"><h3>Teslim etmeyenler (${rows.length})</h3>${rows.map(r=>`<div class="li" style="cursor:default"><div class="grow"><b>${esc(r.name)}</b><small>${esc(r.email)}</small></div></div>`).join("")||`<p class="mu">Herkes teslim etmiş.</p>`}<div class="row"><button class="btn" onclick="remind(${aid})">Hatırlatma duyurusu gönder</button><button class="btn sec" onclick="$('#pick').hidden=true">Kapat</button></div></div>`
+$("#pick").hidden=false
+}
+async function remind(aid){
+try{const r=await api(`/assignments/${aid}/remind`,{method:"POST"});toast(r.classes+" sınıfa hatırlatma duyurusu gönderildi","ok")}catch(e){toast(e.message,"bad")}
+}
+async function csvStu(inp){
+const f=inp.files[0]
+inp.value=""
+if(!f)return
+const text=await f.text()
+const satir=text.split(/\r?\n/).map(x=>x.replace(/;/g,",").trim()).filter(x=>x.includes("@"))
+if(!satir.length)return toast("CSV'de e-posta içeren satır bulunamadı","bad")
+$("#stx").value=satir.join("\n")
+addStu()
+}
+async function addStu(){
+const t=$("#stx").value
+if(!t.trim())return toast("Öğrenci yaz","bad")
+try{const r=await api(`/classes/${ccid}/students`,{method:"POST",body:{text:t}});toast(`${r.added} öğrenci eklendi${r.skipped?`, ${r.skipped} satır e-postasız olduğu için atlandı`:""}`,r.added?"ok":"bad",5000);clsDetail()}catch(e){toast(e.message,"bad")}
+}
+async function rmStu(id){if(confirm("Öğrenci sınıftan çıkarılsın mı?")){try{await api(`/classes/${ccid}/students/${id}`,{method:"DELETE"})}catch(e){toast(e.message,"bad")}clsDetail()}}
+async function rmRoster(id){try{await api(`/classes/${ccid}/roster/${id}`,{method:"DELETE"})}catch(e){toast(e.message,"bad")}clsDetail()}
+async function tabGrd(d){
+const gs=await api(`/classes/${ccid}/grades`),by={}
+gs.forEach(g=>{by[g.student_id]=by[g.student_id]||{};(by[g.student_id][g.kind]=by[g.student_id][g.kind]||[]).push(g)})
+const avg=a=>Math.round(a.reduce((s,x)=>s+x.score,0)/a.length*10)/10
+const cell=a=>a&&a.length?a.map(g=>`<span class="chip" style="cursor:pointer" title="${esc(g.note||"")} · ${fdt(g.at)} (silmek için tıkla)" onclick="delGrade(${g.id})">${g.score}</span>`).join(" ")+` <small style="display:inline">ort. ${avg(a)}</small>`:`<span class="mu">–</span>`
+$("#ctb").innerHTML=`<div class="card"><h3>Not gir</h3><div class="row"><select id="gs" class="grow">${d.members.map(m=>`<option value="${m.id}">${esc(m.name)}</option>`).join("")}</select><select id="gk">${Object.entries(GK).map(([k,l])=>`<option value="${k}">${l}</option>`).join("")}</select><input id="gv" type="number" min="0" max="100" step="0.5" placeholder="Puan (0-100)" style="width:130px"><input id="gn" class="grow" placeholder="Açıklama (isteğe bağlı)"><button class="btn" onclick="addGrade()">Ekle</button></div></div>
+<div class="card tw"><table class="tbl"><tr><th>Öğrenci</th>${Object.values(GK).map(l=>`<th>${l}</th>`).join("")}</tr>${d.members.map(m=>`<tr><td><b>${esc(m.name)}</b></td>${Object.keys(GK).map(k=>`<td>${cell((by[m.id]||{})[k])}</td>`).join("")}</tr>`).join("")}</table></div><p class="mu">Sınav notlarını sınav raporundaki “Notlara aktar” düğmesiyle de buraya ekleyebilirsin. Bir notu silmek için üstüne tıkla.</p>`
+}
+async function addGrade(){
+const v=$("#gv").value
+if(v==="")return toast("Puan yaz","bad")
+try{await api("/grades",{method:"POST",body:{class_id:ccid,student_id:+$("#gs").value,kind:$("#gk").value,score:+v,note:$("#gn").value}});toast("Not eklendi","ok");clsDetail()}catch(e){toast(e.message,"bad")}
+}
+async function delGrade(id){if(confirm("Bu not silinsin mi?")){try{await api("/grades/"+id,{method:"DELETE"})}catch(e){toast(e.message,"bad")}clsDetail()}}
+async function tabAna(){
+$("#ctb").innerHTML=`<p class="mu">Hesaplanıyor…</p>`
+const a=await api(`/classes/${ccid}/analytics`)
+const bars=a.trend.map(t=>`<div class="row" style="margin:6px 0"><span style="width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${esc(t.title)}">${esc(t.title)}</span><div class="bar grow"><i style="width:${t.avg||0}%"></i></div><b style="width:60px;text-align:right">${t.avg??"–"}</b></div>`).join("")
+$("#ctb").innerHTML=`<div class="stats"><div class="stat"><span>🧪</span><b>${a.exams}</b><small>Kapanan sınav</small></div><div class="stat"><span>🎥</span><b>${a.lessons}</b><small>Ders</small></div><div class="stat"><span>👥</span><b>${a.students.length}</b><small>Öğrenci</small></div><div class="stat"><span>⚠️</span><b>${a.students.filter(s=>s.flags.some(f=>f.t=="warn")).length}</b><small>Dikkat gerektiren</small></div></div>
+${a.trend.length?`<div class="card"><h3>Sınıf ortalaması (sınav sınav)</h3>${bars}</div>`:`<div class="card"><p class="mu">Henüz kapanmış sınıf sınavı yok; sınavlar bitince eğilimler burada görünür.</p></div>`}
+<div class="card tw"><table class="tbl"><tr><th>Öğrenci</th><th>Sınav ort.</th><th>Eğilim</th><th>Derse katılım</th><th>Ekran değ.</th><th>Zayıf konular</th></tr>${a.students.map(s=>`<tr><td><b>${esc(s.name)}</b>${s.flags.map(f=>`<small style="color:${f.t=="warn"?"var(--dn)":f.t=="good"?"var(--ok)":"var(--mu)"}">${f.t=="warn"?"⚠ ":f.t=="good"?"★ ":"ⓘ "}${esc(f.m)}</small>`).join("")}</td><td>${s.avg??"–"}</td><td>${tren[s.trend]}${s.delta!=null?` <small style="display:inline">${s.delta>0?"+":""}${s.delta}</small>`:""}</td><td>${s.part_rate==null?"–":"%"+Math.round(s.part_rate*100)} <small>${s.lessons_attended} ders · ${s.mins} dk · ✋${s.hands} · 💬${s.chats}</small></td><td>${s.switches}</td><td>${s.weak.map(w=>esc(w)).join(", ")||"–"}</td></tr>`).join("")}</table></div>
+${a.topics.length?`<div class="card"><h3>Sınıf genelinde konu başarısı (en zayıftan)</h3>${a.topics.map(t=>`<div class="row" style="margin:6px 0"><span style="width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(t.topic)}</span><div class="bar grow"><i style="width:${t.rate}%"></i></div><b style="width:50px;text-align:right">%${t.rate}</b></div>`).join("")}</div>`:""}
+<div class="card"><h3>🧭 Öğretmen rehberi</h3><p class="mu">Yukarıdaki verilerden bir rehber hazırlanır. Yapay zekaya öğrenci adları gönderilmez; “Öğrenci 1” gibi anonim etiketler kullanılır ve yanıt geldikten sonra adlara çevrilir.</p><button class="btn" id="gbtn" onclick="mkGuide()">Rehber hazırla</button><div id="gout" style="margin-top:12px"></div></div>`
+}
+async function mkGuide(){
+const b=$("#gbtn");b.disabled=true;b.textContent="Hazırlanıyor…"
+try{const r=await api(`/classes/${ccid}/guide`,{method:"POST"});$("#gout").innerHTML=md(r.guide)+(r.ai?"":`<p class="mu">Yapay zeka kullanılamadı (${esc(r.error)}); kural tabanlı özet gösterildi.</p>`)}catch(e){toast(e.message,"bad")}
+b.disabled=false;b.textContent="Rehberi yenile"
+}
+async function tabCov(){
+const mo=window.covMonth||new Date().toISOString().slice(0,7)
+window.covMonth=mo
+const lz=await api(`/classes/${ccid}/covered?month=${mo}`)
+$("#ctb").innerHTML=`<div class="card"><div class="row"><label class="chk">Ay <input type="month" id="cmo" value="${mo}" onchange="covMonth=this.value;tabCov()"></label><span class="grow"></span><button class="btn" onclick="newExam(${ccid},'month',$('#cmo').value)">🧪 Bu ayın konularından sınav hazırla</button></div><p class="mu">Canlı derste açtığın kitap sayfaları ve yazdığın konu notları burada toplanır; ay sonu sınavının kaynağı olur.</p></div>
+${lz.map(l=>`<div class="card"><div class="row"><b class="grow">${esc(l.title)}</b><small>${fdt(l.at)}</small></div>${l.topic?`<p>🏷 ${esc(l.topic)}</p>`:""}${l.books.map(b=>`<p>📘 ${esc(b.title)}: sayfa ${esc(b.pages)} (${b.n})</p>`).join("")||`<p class="mu">Kayıtlı sayfa yok.</p>`}</div>`).join("")||`<div class="empty">📖<p>Bu ay için kayıtlı ders yok.</p></div>`}`
+}
+
+/* ---------- sınav listesi ---------- */
+function exCard(e,t){
+const a=e.attempt,self=e.scope=="self",b=[]
+if(t)b.push(e.state=="upcoming"?`<button class="btn sm" onclick="openNow(${e.id})">▶ Şimdi başlat</button>`:"",`<button class="btn sm" onclick="exmReport(${e.id})">📊 Rapor</button>`,`<button class="btn sec sm" onclick="pairsView(${e.id})">🔎 Örüntü</button>`,`<button class="btn dn sm" onclick="delExam(${e.id})">Sil</button>`)
+else{
+if(a&&a.status=="bitti")b.push(`<button class="btn sec sm" onclick="examResult(${a.id})">Sonucum${self?` (${a.score})`:""}</button>`)
+if(e.state=="open"&&(self||!a||a.status=="devam"))b.push(`<button class="btn sm" onclick="examStart(${e.id})">${a&&a.status=="devam"?"Devam et":a?"Tekrar çöz":"Başla"}</button>`)
+if(self)b.push(`<button class="btn dn sm" onclick="delExam(${e.id})">Sil</button>`)
+}
+const when=(self?"":`${fdt(e.start_at)} → ${fdt(e.end_at)} · `)+`${e.nq} soru${e.duration?` · ${e.duration} dk`:""}`
+return `<div class="card"><div class="row"><b class="grow">${esc(e.title)}</b><span class="tag">${KIND[e.kind]}</span>${self?`<span class="tag">Kendi testim</span>`:schip(e.state)}</div><small>${e.cname?esc(e.cname)+" · ":""}${!t&&e.teacher&&!self?esc(e.teacher)+" · ":""}${when}${t?` · ${e.na} giriş`:""}</small>${t&&e.guests&&e.code?`<p class="mu">Misafir kodu: <button class="chip big" onclick="copy('${e.code}')">${e.code}</button></p>`:""}<div class="row" style="margin-top:10px">${b.join("")}</div></div>`
+}
+async function exmView(){
+clearTimeout(exmT)
+view="exm";nav()
+const t=me.role=="teacher",g=me.role=="guest"
+const r=await api("/exams"),off=r.now*1000-Date.now(),ex=r.exams
+const sc=ex.filter(e=>e.scope!="self"),sf=ex.filter(e=>e.scope=="self")
+$("#app").innerHTML=`<div id="xlist">${ed?`<div class="card row"><div class="grow"><b>Hazırladığın sınav taslağı duruyor</b></div><button class="btn sm" onclick="edView()">Taslağa dön</button></div>`:""}<div class="hd"><h1>Sınavlar</h1><div class="row">${g?"":`<button class="btn" onclick="newExam()">${t?"＋ Yeni sınav / deneme":"＋ Kendi testimi hazırla"}</button>`}</div></div>
+${t?"":`<div class="card"><h3>Sınav koduyla katıl</h3><div class="row"><input id="xcode" class="code" maxlength="6" placeholder="ABC123" onkeydown="if(event.key=='Enter')joinExam()"><button class="btn" onclick="joinExam()">Katıl</button></div></div>`}
+${sc.length?`<h3 class="sh2">${t?"Sınavlarım":"Sınıf sınavları"}</h3>`+sc.map(e=>exCard(e,t)).join(""):`<div class="empty">🧪<p>${t?"Henüz sınav yok.":"Şu an görünen sınav yok."}</p></div>`}
+${sf.length?`<h3 class="sh2">Kendi testlerim</h3>`+sf.map(e=>exCard(e,t)).join(""):""}</div>`
+const nx=ex.flatMap(e=>e.scope=="self"?[]:[e.start_at,e.end_at]).filter(x=>x*1000>Date.now()+off).sort((a,b)=>a-b)[0]
+if(nx)exmT=setTimeout(()=>{if($("#xlist"))exmView()},Math.min(nx*1000-(Date.now()+off)+1500,2e9))
+}
+async function joinExam(){
+try{const r=await api("/exams/join",{method:"POST",body:{code:$("#xcode").value.trim()}});toast(r.title+" sınavı listene eklendi","ok");exmView()}catch(e){toast(e.message,"bad")}
+}
+async function openNow(id){
+try{await api(`/exams/${id}/open-now`,{method:"POST"});toast("Sınav şimdi başlatıldı","ok");exmView()}catch(e){toast(e.message,"bad")}
+}
+async function delExam(id){
+if(!confirm("Sınav ve tüm sonuçları silinsin mi?"))return
+try{await api("/exams/"+id,{method:"DELETE"})}catch(e){toast(e.message,"bad")}
+exmView()
+}
+
+/* ---------- sınav hazırlama (elle + yapay zeka) ---------- */
+let aiJobs=[]
+setInterval(async()=>{
+for(const j of[...aiJobs]){
+let r
+try{r=await api("/ai/jobs/"+j.id)}catch(e){aiJobs=aiJobs.filter(x=>x!==j);toast(e.message,"bad",7000);continue}
+if(r.status=="running")continue
+aiJobs=aiJobs.filter(x=>x!==j)
+if(r.status=="done"){j.draft.qs.push(...r.questions.map(q=>({...q,ai:1})));toast(r.questions.length+" yapay zeka sorusu hazır, sınav taslağına eklendi","ok",7000);if(ed===j.draft&&view=="exm"&&$("#edq"))edRender()}
+else toast(r.error,"bad",7000)
+}
+},2500)
+async function newExam(cid,src,month){
+if(ed&&!confirm("Hazırladığın taslak silinecek. Devam edilsin mi?"))return
+const t=me.role=="teacher"
+let bs,cl
+try{[bs,cl]=await Promise.all([api("/books"),t?api("/classes"):[]])}catch(e){return toast(e.message,"bad")}
+cache(bs)
+const s=new Date(Date.now()+3600e3);s.setMinutes(0,0,0)
+ed={title:"",kind:"sinav",class_id:cid||"",start:linp(s),end:linp(new Date(s.getTime()+40*60e3)),dur:0,guests:0,shuffle:1,qs:[],bs,cl,src:src||"topics",month:month||new Date().toISOString().slice(0,7),priv:pvStu?pvStu.uid:null,privName:pvStu?pvStu.name:""}
+pvStu=null
+view="exm";nav();edView()
+}
+function edView(){
+const t=me.role=="teacher",e=ed
+$("#app").innerHTML=`<div class="hd"><div class="row"><button class="btn sec sm" onclick="edCancel()">← Vazgeç</button><h1>${t?"Yeni sınav / deneme":"Kendi testim"}</h1></div></div>${e.priv?`<div class="card"><b>🔒 Bu sınav yalnızca ${esc(e.privName)} tarafından görülecek.</b></div>`:""}
+<div class="card"><h3>Bilgiler</h3><div class="form">
+<input placeholder="Başlık (örn. Ekim Fizik Yazılısı)" value="${esc(e.title)}" oninput="ed.title=this.value">
+<div class="row"><select onchange="ed.kind=this.value">${Object.entries(KIND).map(([k,l])=>`<option value="${k}" ${e.kind==k?"selected":""}>${l}</option>`).join("")}</select>
+${t?`<select class="grow" onchange="ed.class_id=this.value;edAiUi()"><option value="">Sınıf seç…</option>${e.cl.map(c=>`<option value="${c.id}" ${e.class_id==c.id?"selected":""}>${esc(c.name)}</option>`).join("")}</select>`:""}</div>
+${t?`<div class="row"><label class="fl">Başlangıç<input type="datetime-local" value="${e.start}" onchange="ed.start=this.value"></label><label class="fl">Bitiş (sınav bu saatte kapanır)<input type="datetime-local" value="${e.end}" onchange="ed.end=this.value"></label><label class="fl">Kişi başı süre (dk, isteğe bağlı)<input type="number" min="0" max="600" value="${e.dur}" style="width:150px" oninput="ed.dur=+this.value||0"></label></div>
+<div class="row"><label class="chk"><input type="checkbox" ${e.guests?"checked":""} onchange="ed.guests=this.checked?1:0"> Misafir öğrenci kabul et (kodla girer)</label><label class="chk"><input type="checkbox" ${e.shuffle?"checked":""} onchange="ed.shuffle=this.checked?1:0"> Soru sırasını öğrenciye göre karıştır</label></div>`
+:`<label class="fl">Süre (dakika; boş bırakırsan 6 saat)<input type="number" min="0" max="600" value="${e.dur||""}" style="width:150px" oninput="ed.dur=+this.value||0"></label>`}
+</div></div>
+<div class="card"><h3>🤖 Yapay zeka ile soru üret</h3><div id="aiui"></div></div>
+<h3 class="sh2" id="qh"></h3><div id="edq"></div>
+<div class="row" style="margin:12px 0"><button class="btn sec" onclick="edAdd()">＋ Elle soru ekle</button><button class="btn sec" onclick="poolPick()">📚 Havuzdan ekle</button><button class="btn sec" onclick="poolSaveDraft()">💾 Havuza kaydet</button><span class="grow"></span><button class="btn lg" onclick="edSave()">${t?"Sınavı kaydet":"Kaydet ve çöz"}</button></div>`
+edAiUi();edRender()
+}
+function edKeep(){
+const g=id=>$("#"+id)
+if(g("gt"))ed.gt=g("gt").value
+if(g("gp"))ed.gp=g("gp").value
+if(g("gb"))ed.gb=g("gb").value
+if(g("gc"))ed.gc=+g("gc").value
+if(g("gl"))ed.gl=g("gl").value
+if(g("go"))ed.go=+g("go").value
+if(g("gm"))ed.month=g("gm").value
+}
+function edAiUi(){
+edKeep()
+const e=ed,t=me.role=="teacher"
+const srcs=[["topics","Konu yaz"],["pages","Kitaptan sayfa seç"],...(t?[["month","Ayın işlenen konuları"]]:[])]
+$("#aiui").innerHTML=`<div class="tabs2">${srcs.map(([k,l])=>`<button class="${e.src==k?"on":""}" onclick="ed.src='${k}';edAiUi()">${l}</button>`).join("")}</div>
+${e.src=="topics"?`<textarea id="gt" style="width:100%" placeholder="Konuları yaz: örn. Newton'un hareket yasaları, sürtünme kuvveti">${esc(e.gt||"")}</textarea>`:""}
+${e.src=="pages"?`<div class="row"><select id="gb" class="grow">${e.bs.map(b=>`<option value="${b.id}" ${e.gb==b.id?"selected":""}>${esc(b.title)} (${b.pages} s.)</option>`).join("")||"<option value=''>Kitap yok</option>"}</select><input id="gp" placeholder="Sayfalar: 12-18, 22" value="${esc(e.gp||"")}"></div><input id="gt" style="margin-top:8px;width:100%" placeholder="Ek istek (isteğe bağlı)" value="${esc(e.gt||"")}">`:""}
+${e.src=="month"?`<div class="row"><label class="chk">Ay <input type="month" id="gm" value="${e.month}"></label><span class="mu">${e.class_id?"Seçili sınıfın o ay işlediği dersler ve sayfalar kaynak olur.":"Önce yukarıdan sınıf seç."}</span></div><input id="gt" style="margin-top:8px;width:100%" placeholder="Ek istek (isteğe bağlı)" value="${esc(e.gt||"")}">`:""}
+<div class="row" style="margin-top:10px;align-items:flex-end"><label class="fl">Soru sayısı<input id="gc" type="number" min="1" max="30" value="${e.gc||10}" style="width:100px"></label><label class="fl">Seviye<select id="gl">${["kolay","orta","zor"].map(x=>`<option ${(e.gl||"orta")==x?"selected":""}>${x}</option>`).join("")}</select></label><label class="fl">Seçenek<select id="go"><option>4</option><option ${e.go==5?"selected":""}>5</option></select></label><button class="btn" id="gbn" onclick="edGen()">Soruları üret</button></div>
+<small>Üretilen sorular aşağıya eklenir; kaydetmeden önce düzenleyebilir ya da silebilirsin. Ayarlar bölümünde API anahtarı gerekir.</small>`
+}
+async function edGen(){
+edKeep()
+const e=ed
+if(e.src=="month"&&!e.class_id)return toast("Önce sınıf seç","bad")
+const body={source:e.src,topics:e.gt||"",count:e.gc||10,level:e.gl||"orta",opts:e.go==5?5:4}
+if(e.src=="pages"){body.book_id=+e.gb||null;body.pages=e.gp||""}
+if(e.src=="month"){body.class_id=+e.class_id||null;body.month=e.month}
+const b=$("#gbn");b.disabled=true;b.textContent="Üretiliyor…"
+try{const r=await api("/ai/jobs",{method:"POST",body});aiJobs.push({id:r.job,draft:e});toast("Sorular arka planda hazırlanıyor, başka işine devam edebilirsin","ok",6000)}catch(x){toast(x.message,"bad",7000)}
+if($("#gbn")){$("#gbn").disabled=false;$("#gbn").textContent="Soruları üret"}
+}
+function edRender(){
+$("#qh").textContent=`Sorular (${ed.qs.length})`
+$("#edq").innerHTML=ed.qs.map((x,i)=>`<div class="card"><div class="row"><b>Soru ${i+1}</b>${x.ai?`<span class="tag">YZ</span>`:""}<input class="grow" placeholder="Konu (isteğe bağlı)" value="${esc(x.topic)}" oninput="ed.qs[${i}].topic=this.value"><button class="ic" onclick="edDel(${i})" title="Sil">🗑</button></div><textarea style="width:100%;margin:8px 0" oninput="ed.qs[${i}].text=this.value">${esc(x.text)}</textarea>${x.opts.map((o,j)=>`<div class="row" style="margin-top:6px"><input type="radio" name="r${i}" ${x.ans==j?"checked":""} onchange="ed.qs[${i}].ans=${j}" title="Doğru cevap"><b>${"ABCDE"[j]}</b><input class="grow" value="${esc(o)}" oninput="ed.qs[${i}].opts[${j}]=this.value"></div>`).join("")}<input style="width:100%;margin-top:8px" placeholder="Açıklama (isteğe bağlı)" value="${esc(x.expl)}" oninput="ed.qs[${i}].expl=this.value"></div>`).join("")||`<div class="empty">📝<p>Henüz soru yok. Yapay zeka ile üret ya da elle ekle.</p></div>`
+}
+async function poolPick(){
+let rows
+try{rows=await api("/pool")}catch(e){return toast(e.message,"bad")}
+$("#pick").innerHTML=`<div class="card pk"><h3>Soru havuzu (${rows.length})</h3>${rows.map(x=>`<label class="li"><input type="checkbox" value="${x.id}" class="pchk"><div class="grow"><b>${esc(x.text).slice(0,120)}</b><small>${x.topic?esc(x.topic):"Konusuz"}</small></div></label>`).join("")||`<p class="mu">Havuz boş. Sınav hazırlarken "Havuza kaydet" ile soru ekleyebilirsin.</p>`}<div class="row"><button class="btn" onclick="poolAdd()">Seçilenleri ekle</button><button class="btn sec" onclick="$('#pick').hidden=true">Kapat</button></div></div>`
+$("#pick").hidden=false
+window._pool=rows
+}
+function poolAdd(){
+const ids=[...document.querySelectorAll(".pchk:checked")].map(x=>+x.value)
+const picked=(window._pool||[]).filter(x=>ids.includes(x.id))
+if(!picked.length)return toast("En az bir soru seç","bad")
+picked.forEach(x=>ed.qs.push({text:x.text,opts:[...x.opts],ans:x.ans,expl:x.expl||"",topic:x.topic||""}))
+$("#pick").hidden=true
+edRender()
+toast(picked.length+" soru havuzdan eklendi","ok")
+}
+async function poolSaveDraft(){
+const qs=ed.qs.filter(x=>x.text.trim()&&x.opts.every(o=>o.trim())&&x.ans>=0)
+if(!qs.length)return toast("Kaydedilecek tam soru yok (metin, şıklar ve doğru cevap gerekli)","bad")
+try{const r=await api("/pool",{method:"POST",body:{questions:qs.map(({text,opts,ans,expl,topic})=>({text,opts,ans,expl:expl||"",topic:topic||""}))}});toast(r.added+" soru havuza kaydedildi","ok")}catch(e){toast(e.message,"bad")}
+}
+function edAdd(){ed.qs.push({text:"",opts:["","","",""],ans:-1,expl:"",topic:""});edRender();window.scrollTo(0,document.body.scrollHeight)}
+function edDel(i){ed.qs.splice(i,1);edRender()}
+function edCancel(){if(ed.qs.length&&!confirm("Hazırladığın sorular silinecek. Çıkılsın mı?"))return;ed=null;exmView()}
+async function edSave(){
+const e=ed,t=me.role=="teacher"
+if(!e.title.trim())return toast("Başlık yaz","bad")
+if(!e.qs.length)return toast("En az bir soru ekle","bad")
+const bad=e.qs.findIndex(x=>!x.text.trim()||x.opts.some(o=>!o.trim())||x.ans<0)
+if(bad>=0)return toast(`${bad+1}. soruda boş alan veya doğru cevap seçilmemiş`,"bad")
+const body={title:e.title,kind:e.kind,duration:e.dur||0,shuffle:e.shuffle,source:e.qs.some(x=>x.ai)?"ai":"manual",questions:e.qs.map(({text,opts,ans,expl,topic})=>({text,opts,ans,expl,topic}))}
+if(t){
+const s=new Date(e.start).getTime()/1000,n=new Date(e.end).getTime()/1000
+if(!(s>0)||!(n>s))return toast("Başlangıç ve bitiş saatini kontrol et","bad")
+Object.assign(body,{class_id:+e.class_id||null,start_at:s,end_at:n,guests:e.guests})
+if(e.priv)Object.assign(body,{private:1,students:[e.priv]})
+}
+try{
+const r=await api("/exams",{method:"POST",body})
+ed=null
+if(t){toast("Sınav kaydedildi"+(r.code&&e.guests?" · misafir kodu: "+r.code:""),"ok",6000);exmView()}
+else{toast("Test hazır","ok");examStart(r.id)}
+}catch(x){toast(x.message,"bad",6000)}
+}
+
+/* ---------- sınav çözme + ekran değişimi takibi ---------- */
+async function examStart(eid){
+let r
+try{r=await api(`/exams/${eid}/start`,{method:"POST"})}catch(e){return toast(e.message,"bad",5000)}
+tk={aid:r.aid,title:r.title,qs:r.qs,a:r.answers||{},dl:r.deadline*1000,off:r.now*1000-Date.now(),away:r.switches||0,fin:0,retry:0}
+awayNow=false
+view="exm";nav()
+tkDraw()
+clearInterval(tkTimer);tkTimer=setInterval(tkTick,500);tkTick()
+$("#exam").hidden=false
+}
+function tkDraw(){
+$("#exam").innerHTML=`<header class="exh"><b class="grow" style="font-size:17px">${esc(tk.title)}</b><span id="eaway" class="chip" hidden></span><span id="eprog" class="mu"></span><span id="etimer" class="chip big" style="letter-spacing:1px">--:--</span><button class="btn" onclick="examFinish()">Bitir</button></header>
+<div id="eban" class="eban" hidden></div>
+<div class="exb">${tk.qs.map((q,i)=>`<div class="card"><b>${i+1}.</b> <span class="pre">${esc(q.text)}</span>${q.opts.map((o,j)=>`<label class="opt ${tk.a[q.id]===j?"on":""}" data-q="${q.id}" data-j="${j}" onclick="pick(${q.id},${j})"><b>${"ABCDE"[j]}</b><span>${esc(o)}</span></label>`).join("")}</div>`).join("")}<div class="row" style="justify-content:center;margin:20px 0"><button class="btn lg" onclick="examFinish()">Sınavı bitir</button></div></div>`
+tkProg();tkAway()
+}
+function pick(qid,j){
+if(!tk||tk.fin)return
+tk.a[qid]=j
+$$(`#exam .opt[data-q="${qid}"]`).forEach(l=>l.classList.toggle("on",+l.dataset.j==j))
+tkProg()
+clearTimeout(tk.st);tk.st=setTimeout(tkSave,350)
+}
+async function tkSave(){
+if(!tk||tk.fin)return
+try{await api(`/attempts/${tk.aid}/answers`,{method:"PUT",body:{answers:tk.a}})}catch(e){if(/Süre|kapandı/.test(e.message))examFinish(true)}
+}
+const tkProg=()=>{const e=$("#eprog");if(e&&tk)e.textContent=`${Object.keys(tk.a).length}/${tk.qs.length} cevaplandı`}
+function tkAway(){
+const b=$("#eaway")
+if(b&&tk){b.hidden=!tk.away;b.textContent=`⚠️ Ekran değişimi: ${tk.away}`}
+}
+function tkTick(){
+if(!tk)return
+const left=Math.max(0,Math.floor((tk.dl-(Date.now()+tk.off))/1000))
+const h=Math.floor(left/3600),m=Math.floor(left%3600/60),s=left%60,el=$("#etimer")
+if(el){el.textContent=(h?h+":":"")+p2(m)+":"+p2(s);el.style.color=left<60?"var(--dn)":""}
+if(left<=0&&!tk.fin&&Date.now()>tk.retry)examFinish(true)
+}
+function tkEv(k){
+if(!tk)return
+fetch(`/api/attempts/${tk.aid}/event`,{method:"POST",keepalive:true,headers:{"Content-Type":"application/json",Authorization:"Bearer "+token},body:JSON.stringify({k})}).catch(()=>{})
+}
+function goAway(){
+if(!tk||awayNow||tk.fin)return
+awayNow=true;tk.away++;tkAway();tkEv("away")
+}
+function comeBack(){
+if(!tk||!awayNow)return
+awayNow=false;tkEv("back")
+const b=$("#eban")
+if(b){b.hidden=false;b.textContent=`Sınav ekranından ayrıldığın kaydedildi (toplam ${tk.away} kez). Bu bilgi öğretmenine rapor olarak gider.`}
+}
+document.addEventListener("visibilitychange",()=>document.hidden?goAway():comeBack())
+window.addEventListener("blur",()=>setTimeout(()=>{if(tk&&!document.hasFocus())goAway()},500))
+window.addEventListener("focus",()=>{if(!document.hidden)comeBack()})
+window.addEventListener("pagehide",goAway)
+document.addEventListener("copy",()=>{if(tk)tkEv("copy")})
+window.addEventListener("beforeunload",e=>{if(tk&&!tk.fin){e.preventDefault();e.returnValue=""}})
+async function examFinish(auto){
+if(!tk||tk.fin)return
+const un=tk.qs.length-Object.keys(tk.a).length
+if(!auto&&!confirm(un?`${un} soru boş. Sınavı bitirmek istiyor musun?`:"Sınavı bitirmek istiyor musun?"))return
+tk.fin=1
+let r
+try{r=await api(`/attempts/${tk.aid}/finish`,{method:"POST",body:{answers:tk.a}})}catch(e){tk.fin=0;tk.retry=Date.now()+3000;toast(e.message,"bad");return}
+clearInterval(tkTimer);clearTimeout(tk.st)
+tk=null;$("#exam").hidden=true;$("#exam").innerHTML=""
+if(auto)toast("Süre doldu, sınav kapandı")
+showResult(r)
+}
+async function examResult(aid){
+try{showResult(await api("/attempts/"+aid))}catch(e){toast(e.message,"bad")}
+}
+function topicSummary(rv){
+if(!rv)return ""
+const tt={}
+rv.forEach(x=>{if(!x.topic)return;const t=tt[x.topic]||(tt[x.topic]={ok:0,n:0});t.n++;if(x.mine===x.ans)t.ok++})
+const rows=Object.entries(tt).map(([k,v])=>({topic:k,ok:v.ok,n:v.n,rate:Math.round(100*v.ok/v.n)})).sort((a,b)=>a.rate-b.rate)
+if(!rows.length)return ""
+const weak=rows.filter(x=>x.rate<50)
+return `<div class="card"><h3>Konu özeti</h3>${rows.map(x=>`<div class="row" style="margin:5px 0"><span style="width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(x.topic)}</span><div class="bar grow"><i style="width:${x.rate}%"></i></div><b style="width:80px;text-align:right">%${x.rate} <small>(${x.ok}/${x.n})</small></b></div>`).join("")}${weak.length?`<p class="mu" style="margin-top:10px">Tekrar önerisi: <b>${weak.map(x=>esc(x.topic)).join(", ")}</b> konularını tekrar çalışmanı öneririm. Yanlış cevapladığın soruların açıklamalarını aşağıda inceleyebilirsin.</p>`:`<p class="mu" style="margin-top:10px">Tüm konularda iyi bir sonuç var. Yanlış cevapladıklarını aşağıdaki açıklamalardan inceleyebilirsin.</p>`}</div>`
+}
+function showResult(r){
+view="exm";nav()
+const rv=r.review,self=r.exam.scope=="self"
+const weak=rv?[...new Set(rv.filter(x=>x.mine!==x.ans).map(x=>x.topic).filter(Boolean))]:[]
+$("#app").innerHTML=`<div class="hd"><div class="row"><button class="btn sec sm" onclick="exmView()">← Sınavlar</button><h1>${esc(r.exam.title)}</h1></div></div>
+<div class="card center"><div class="score">${r.score}</div><p class="mu">/ 100</p><div class="row cj"><span class="chip up">✓ ${r.correct} doğru</span><span class="chip dw">✗ ${r.wrong} yanlış</span><span class="chip">– ${r.blank} boş</span></div>
+${r.prev?`<p>Önceki (<b>${esc(r.prev.title)}</b>): ${r.prev.score} → şimdi ${r.score} ${dlt(r.score-r.prev.score)}</p>`:`<p class="mu">Karşılaştırılacak önceki sınav yok.</p>`}
+${r.rank?`<p>Sıran: <b>${r.rank}</b> / ${r.n}</p>`:self?"":`<p class="mu">Sıralama ve cevap anahtarı sınav kapandıktan sonra açılır.</p>`}
+<small>Sınav sırasında ekran değiştirme: ${r.switches} kez</small></div>
+${topicSummary(rv)}
+${weak.length?`<div class="card"><h3>Tekrar etmen gereken konular</h3><p>${weak.map(w=>`<span class="chip">${esc(w)}</span>`).join(" ")}</p></div>`:""}
+${rv?`<h3 class="sh2">Cevap anahtarı</h3>${rv.map((x,i)=>`<div class="card"><b>${i+1}.</b> <span class="pre">${esc(x.text)}</span>${x.opts.map((o,j)=>`<div class="opt ${j==x.ans?"ok":j==x.mine?"bad":""}"><b>${"ABCDE"[j]}</b><span class="grow">${esc(o)}</span>${j==x.ans?"✓":j==x.mine?"✗ senin cevabın":""}</div>`).join("")}${x.mine==null||x.mine<0?`<small>Boş bıraktın.</small>`:""}${x.expl?`<p class="mu">💡 ${esc(x.expl)}</p>`:""}</div>`).join("")}`:""}`
+}
+
+/* ---------- öğretmen: sınav raporu ---------- */
+function evHtml(a){
+const ev=a.events||[]
+if(!ev.length)return `<span class="mu">Sınav boyunca sayfadan ayrılma kaydı yok.</span>`
+return `<p class="mu">Başlangıç: ${new Date(a.started*1000).toLocaleTimeString("tr-TR")}. “Ekran değişimi” sekme değiştirme, pencereden çıkma ya da sayfayı kapatma demektir; tek başına kopya kanıtı değildir (ör. gelen bir bildirim de odağı alabilir).</p>`+ev.map(e=>{
+const tm=new Date(e.at*1000).toLocaleTimeString("tr-TR"),rel="+"+dur(Math.max(0,Math.round(e.at-a.started)))
+return `<div>${e.k=="away"?"🚪 Ayrıldı":e.k=="back"?`↩ Döndü (${dur(e.d)} dışarıda)`:"📋 Kopyalama denemesi"} <small style="display:inline">${tm} · ${rel}</small></div>`
+}).join("")
+}
+const evOpen=i=>{const e=$("#ev"+i);e.hidden=!e.hidden}
+async function exmReport(eid){
+let r
+try{r=await api(`/exams/${eid}/report`)}catch(e){return toast(e.message,"bad")}
+rp=r;view="exm";nav()
+const x=r.exam,done=r.rows.filter(a=>a.status=="bitti").length
+$("#app").innerHTML=`<div class="hd"><div class="row"><button class="btn sec sm" onclick="exmView()">← Sınavlar</button><h1>📊 ${esc(x.title)}</h1>${schip(x.state)}</div><div class="row"><button class="btn sec" onclick="csvRep()">⬇ CSV</button>${x.class_id?`<button class="btn sec" onclick="pushGrades(${eid})">📒 Notlara aktar</button>`:""}<button class="btn sec" onclick="exmReport(${eid})">↻ Yenile</button></div></div>
+<p class="mu">${fdt(x.start_at)} → ${fdt(x.end_at)} · ${x.nq} soru${x.duration?` · ${x.duration} dk`:""}${x.state!="closed"?" · <b>Sınav henüz kapanmadı; sonuçlar kesinleşmedi.</b>":""}</p>
+<div class="stats"><div class="stat"><span>👥</span><b>${done}${r.total?`/${r.total}`:""}</b><small>Tamamlayan</small></div><div class="stat"><span>📊</span><b>${r.avg??"–"}</b><small>Ortalama${r.prev&&r.prev.avg!=null?` (önceki: ${r.prev.avg}) ${r.avg!=null?dlt(r.avg-r.prev.avg):""}`:""}</small></div><div class="stat"><span>🏆</span><b>${r.max??"–"}</b><small>En yüksek</small></div><div class="stat"><span>📉</span><b>${r.min??"–"}</b><small>En düşük</small></div></div>
+<div class="card tw"><table class="tbl"><tr><th>Sıra</th><th>Öğrenci</th><th>Doğru</th><th>Yanlış</th><th>Boş</th><th>Puan</th><th>Önceki</th><th>Fark</th><th>Ekran değ.</th><th>Dışarıda</th><th>Süre</th><th></th></tr>${r.rows.map((a,i)=>`<tr><td>${a.rank??"…"}</td><td><b>${esc(a.name)}</b></td><td class="up">${a.correct}</td><td class="dw">${a.wrong}</td><td>${a.blank}</td><td><b>${a.status=="bitti"?a.score:"devam"}</b></td><td>${a.prev?a.prev.score:"–"}</td><td>${a.prev&&a.status=="bitti"?dlt(a.score-a.prev.score):""}</td><td>${a.switches?`<b class="${a.switches>=3?"dw":""}">${a.switches}</b>`:"0"}${a.copies?` <small style="display:inline">📋${a.copies}</small>`:""}</td><td>${a.away_sec?dur(a.away_sec):"–"}</td><td>${dur(a.secs)}</td><td><button class="btn sec sm" onclick="evOpen(${i})">Hareketler</button></td></tr><tr id="ev${i}" hidden><td colspan="12"><div class="sub">${evHtml(a)}</div></td></tr>`).join("")||`<tr><td colspan="12" class="mu">Henüz giren yok.</td></tr>`}</table></div>
+${r.absent.length?`<div class="card"><h3>Girmeyenler (${r.absent.length})</h3><p>${r.absent.map(n=>`<span class="chip">${esc(n)}</span>`).join(" ")}</p></div>`:""}
+<h3 class="sh2">Soru analizi</h3>${r.qa.map(q=>`<div class="card"><div class="row"><b class="grow">${q.idx}. ${esc(q.text)}</b>${q.topic?`<span class="tag">${esc(q.topic)}</span>`:""}<b>${q.rate==null?"–":"%"+q.rate}</b></div><div class="bar" style="margin:8px 0"><i style="width:${q.rate||0}%"></i></div><small>${q.opts.map((o,j)=>`${"ABCDE"[j]}: ${q.cnt[j]}${j==q.ans?" ✓":""}`).join(" · ")} · boş: ${q.blank}</small></div>`).join("")}`
+}
+async function pushGrades(eid){
+if(!confirm("Bu sınavın puanları sınıfın not defterine (yazılı/deneme) eklensin mi? Daha önce aktardıysan yenilenir."))return
+try{const r=await api(`/exams/${eid}/grades`,{method:"POST"});toast(r.n+" not aktarıldı","ok")}catch(e){toast(e.message,"bad")}
+}
+function csvRep(){
+const r=rp,c=v=>typeof v=="string"&&/^[=+\-@]/.test(v)?"'"+v:v
+const rows=[["Sıra","Öğrenci","Doğru","Yanlış","Boş","Puan","Önceki puan","Fark","Ekran değişimi","Dışarıda (sn)","Süre (sn)"],...r.rows.map(a=>[a.rank||"",c(a.name),a.correct,a.wrong,a.blank,a.status=="bitti"?a.score:"devam",a.prev?a.prev.score:"",a.prev&&a.status=="bitti"?+(a.score-a.prev.score).toFixed(1):"",a.switches,a.away_sec,a.secs??""])]
+const csv="\ufeff"+rows.map(x=>x.map(v=>`"${String(v).replace(/"/g,'""')}"`).join(";")).join("\r\n")
+const u=URL.createObjectURL(new Blob([csv],{type:"text/csv;charset=utf-8"}))
+const a=document.createElement("a");a.href=u;a.download=r.exam.title.replace(/[^\w\-]+/g,"_")+".csv";a.click()
+setTimeout(()=>URL.revokeObjectURL(u),2000)
+}
+
+render()
+</script>
+</body>
+</html>
